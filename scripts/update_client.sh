@@ -11,8 +11,12 @@ python -m assembly_client.cli sync --force
 echo "Step 2: Regenerating Client Code..."
 python run_codegen.py
 
-# 3. Verify with Tests
-echo "Step 3: Running Tests..."
+# 3. Generate/Update Fixtures (for new APIs)
+echo "Step 3: Checking for new fixtures..."
+python scripts/generate_fixtures.py
+
+# 4. Verify with Tests
+echo "Step 4: Running Tests..."
 pytest tests/test_all_services.py
 
 echo "Update Complete! Please review changes and commit."

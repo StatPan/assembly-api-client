@@ -4,6 +4,7 @@ import logging
 import os
 from pathlib import Path
 
+import typer
 from assembly_client.api import AssemblyAPIClient
 from assembly_client.generated import Service
 
@@ -80,22 +81,60 @@ async def fetch_fixture(client: AssemblyAPIClient, service: Service):
         logger.error(f"Failed to fetch {service.name}: {e}")
 
 
-async def main():
-    async with AssemblyAPIClient(api_key=API_KEY) as client:
-        # Iterate over all services
-        tasks = []
-        sem = asyncio.Semaphore(5)  # Limit concurrency to avoid rate limits
+app = typer.Typer()
 
-        async def bound_fetch(s):
-            async with sem:
-                await fetch_fixture(client, s)
-                await asyncio.sleep(0.1)  # Be nice to the server
 
-        for service in Service:
-            tasks.append(bound_fetch(service))
+@app.command()
+def main(
+    force: bool = typer.Option(False, help="Force update existing fixtures"),
+    limit: int = typer.Option(None, help="Limit number of fixtures to fetch"),
+):
+    # Load API Key
+    api_key = os.getenv("ASSEMBLY_API_KEY")
+    if not api_key:
+        # Try .env
+        try:
+            from dotenv import load_dotenv
 
-        await asyncio.gather(*tasks)
+            load_dotenv()
+            api_key = os.getenv("ASSEMBLY_API_KEY")
+        except ImportError:
+            pass
+
+    if not api_key:
+        logger.error("ASSEMBLY_API_KEY not found. Cannot generate fixtures.")
+        return
+
+    async def run():
+        async with AssemblyAPIClient(api_key=api_key) as client:
+            tasks = []
+            sem = asyncio.Semaphore(5)
+
+            async def bound_fetch(s):
+                async with sem:
+                    # Pass force flag if we modify fetch_fixture to accept it
+                    # For now, let's handle force logic here or in fetch_fixture
+                    filename = f"{s.name}.json"
+                    filepath = FIXTURE_DIR / filename
+
+                    if not force and filepath.exists():
+                        # logger.info(f"Skipping {s.name} (already exists)")
+                        return
+
+                    await fetch_fixture(client, s)
+                    await asyncio.sleep(0.1)
+
+            services = list(Service)
+            if limit:
+                services = services[:limit]
+
+            for service in services:
+                tasks.append(bound_fetch(service))
+
+            await asyncio.gather(*tasks)
+
+    asyncio.run(run())
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    app()
