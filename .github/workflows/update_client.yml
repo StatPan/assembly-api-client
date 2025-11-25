@@ -1,0 +1,50 @@
+name: Update API Client
+
+on:
+  schedule:
+    # Run every Sunday at midnight
+    - cron: '0 0 * * 0'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install -e .
+          pip install httpx openpyxl pydantic tenacity typer rich platformdirs
+
+      - name: Run Update Script
+        env:
+          ASSEMBLY_API_KEY: ${{ secrets.ASSEMBLY_API_KEY }}
+        run: |
+          chmod +x scripts/update_client.sh
+          ./scripts/update_client.sh
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.git-check.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat: update api client specs"
+          title: "Update API Client Specs"
+          body: |
+            This PR updates the API client with the latest specifications from the National Assembly Open API.
+            
+            - Synced latest master list
+            - Downloaded new/updated specs
+            - Regenerated Enums and Pydantic Models
+          branch: update-api-specs
