@@ -34,17 +34,27 @@ jobs:
         run: |
           git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
 
+      - name: Bump Version
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          python scripts/bump_version.py
+          NEW_VERSION=$(grep -oP 'version = "\K[^"]+' pyproject.toml)
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        id: bump-version
+
       - name: Create Pull Request
         if: steps.git-check.outputs.changes == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "feat: update api client specs"
-          title: "Update API Client Specs"
+          commit-message: "feat: update api client specs to v${{ steps.bump-version.outputs.new_version }}"
+          title: "Update API Client Specs to v${{ steps.bump-version.outputs.new_version }}"
           body: |
             This PR updates the API client with the latest specifications from the National Assembly Open API.
             
             - Synced latest master list
             - Downloaded new/updated specs
             - Regenerated Enums and Pydantic Models
+            - **Version bumped to ${{ steps.bump-version.outputs.new_version }}**
           branch: update-api-specs
+
