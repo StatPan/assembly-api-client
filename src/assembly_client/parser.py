@@ -372,3 +372,42 @@ def load_service_map(cache_dir: Path) -> dict[str, str]:
         logger.error(f"Failed to load master list {master_file}: {e}")
 
     return service_map
+
+
+def load_service_metadata(cache_dir: Path) -> dict[str, dict[str, str]]:
+    """Load comprehensive service metadata from cached master list.
+
+    Returns:
+        Dictionary mapping service_id to metadata dict with keys:
+        - name: Service name (INF_NM)
+        - description: Service description (INF_EXP)
+        - category: Category (CATE_NM)
+        - organization: Organization (ORG_NM)
+        - endpoint: Service URL (SRV_URL)
+    """
+    service_metadata = {}
+    master_file = cache_dir / "all_apis.json"
+
+    if not master_file.exists():
+        return {}
+
+    try:
+        with open(master_file, encoding="utf-8") as f:
+            data = json.load(f)
+            if "OPENSRVAPI" in data:
+                for item in data["OPENSRVAPI"]:
+                    if "row" in item:
+                        for row in item["row"]:
+                            inf_id = row.get("INF_ID")
+                            if inf_id:
+                                service_metadata[inf_id] = {
+                                    "name": row.get("INF_NM", ""),
+                                    "description": row.get("INF_EXP", ""),
+                                    "category": row.get("CATE_NM", ""),
+                                    "organization": row.get("ORG_NM", ""),
+                                    "endpoint": row.get("SRV_URL", ""),
+                                }
+    except Exception as e:
+        logger.error(f"Failed to load service metadata {master_file}: {e}")
+
+    return service_metadata

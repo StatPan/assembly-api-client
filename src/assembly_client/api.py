@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from .errors import AssemblyAPIError, SpecParseError
-from .parser import APISpec, SpecParser, load_service_map
+from .parser import APISpec, SpecParser, load_service_map, load_service_metadata
 
 # Try to import generated types, but don't fail if not generated yet
 try:
@@ -59,6 +59,9 @@ class AssemblyAPIClient:
         self.service_map = load_service_map(self.spec_parser.cache_dir)
         # Create reverse map (Name -> ID)
         self.name_to_id = {name: sid for sid, name in self.service_map.items()}
+
+        # Load comprehensive service metadata
+        self.service_metadata = load_service_metadata(self.spec_parser.cache_dir)
 
     def search_services(self, keyword: str) -> dict[str, str]:
         """
