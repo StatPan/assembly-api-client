@@ -6,12 +6,11 @@ import asyncio
 import json
 import logging
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
 import httpx
 
 from .parser import SpecParser, load_service_map
-from .errors import AssemblyAPIError
 
 logger = logging.getLogger(__name__)
 
@@ -21,18 +20,16 @@ BASE_URL = "https://open.assembly.go.kr/portal/openapi"
 
 async def fetch_master_list(api_key: str, parser: SpecParser) -> List[Dict]:
     """Fetch the complete list of APIs from the master service."""
-    
+
     # 1. Bootstrap: Get the endpoint for the Master List Service
     try:
-        logger.info(
-            f"Bootstrapping: Downloading spec for Master List Service ({MASTER_LIST_SERVICE_ID})..."
-        )
+        logger.info(f"Bootstrapping: Downloading spec for Master List Service ({MASTER_LIST_SERVICE_ID})...")
         # Force download to ensure we have the latest spec for the master list itself
         # Use infSeq=1 for this specific service as per previous observation
         # Note: parser.parse_spec will handle caching, but we might want to force update?
         # For now, let's trust the parser's logic or maybe add a force_refresh flag to parser later.
         # But here we can just clear cache for this ID if we want to force.
-        
+
         spec = await parser.parse_spec(MASTER_LIST_SERVICE_ID, inf_seq=1)
         master_endpoint = spec.endpoint
         logger.info(f"Resolved Master List Endpoint: {master_endpoint}")
@@ -106,8 +103,6 @@ def save_master_list(rows: List[Dict], cache_dir: Path):
     logger.info(f"Saved {len(rows)} APIs to {output_file}")
 
 
-
-
 async def sync_service(parser: SpecParser, service_id: str, service_name: str | None = None) -> str:
     """
     Sync a single service by parsing its spec (downloads if not cached).
@@ -122,50 +117,47 @@ async def sync_service(parser: SpecParser, service_id: str, service_name: str | 
 
 
 async def sync_all_services(
-    api_key: str, 
-    parser: SpecParser, 
-    limit: Optional[int] = None,
-    force_update_list: bool = False
+    api_key: str, parser: SpecParser, limit: Optional[int] = None, force_update_list: bool = False
 ) -> Dict[str, int]:
     """
     Sync all services found in the master list.
-    
+
     Args:
         api_key: API Key for fetching master list.
         parser: SpecParser instance.
         limit: Max number of services to sync.
         force_update_list: Whether to force re-downloading the master list.
-        
+
     Returns:
         Stats dict with 'updated' and 'failed' counts.
     """
-    
+
     # 1. Update Master List if needed
     master_file = parser.cache_dir / "all_apis.json"
     if force_update_list or not master_file.exists():
         logger.info("Fetching master list...")
         rows = await fetch_master_list(api_key, parser)
         save_master_list(rows, parser.cache_dir)
-    
+
     # 2. Load Services
     service_map = load_service_map(parser.cache_dir)
     service_ids = sorted(service_map.keys())
-    
+
     if limit:
         service_ids = service_ids[:limit]
-        
+
     logger.info(f"Starting sync for {len(service_ids)} services...")
-    
+
     stats = {"updated": 0, "failed": 0}
-    
+
     # Process in chunks
     chunk_size = 5
     for i in range(0, len(service_ids), chunk_size):
         chunk = service_ids[i : i + chunk_size]
         tasks = [sync_service(parser, sid, service_map.get(sid)) for sid in chunk]
-        
+
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        
+
         for result in results:
             if isinstance(result, Exception):
                 stats["failed"] += 1
@@ -173,7 +165,7 @@ async def sync_all_services(
                 stats["updated"] += 1
             else:
                 stats["failed"] += 1
-                
+
         logger.info(f"Progress: {min(i + chunk_size, len(service_ids))}/{len(service_ids)}")
 
     return stats

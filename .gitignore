@@ -9,3 +9,4 @@ wheels/
 # Virtual environments
 .venv
 *_output.txt
+.env

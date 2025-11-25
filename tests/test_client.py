@@ -1,9 +1,6 @@
-import json
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, mock_open, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from assembly_client.api import AssemblyAPIClient
 from assembly_client.errors import AssemblyAPIError
 

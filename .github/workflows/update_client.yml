@@ -2,8 +2,8 @@ name: Update API Client
 
 on:
   schedule:
-    # Run every Sunday at midnight
-    - cron: '0 0 * * 0'
+    # Run every day at midnight KST (15:00 UTC previous day)
+    - cron: '0 15 * * *'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:

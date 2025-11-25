@@ -12,13 +12,36 @@
 
 ## 설치 (Installation)
 
+이 프로젝트는 [uv](https://github.com/astral-sh/uv)를 사용하여 의존성을 관리하는 것을 권장합니다.
+
 ```bash
-pip install assembly-api-client
+# uv 설치 (없는 경우)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 가상환경 생성 및 패키지 설치
+uv venv
+source .venv/bin/activate
+uv pip install assembly-api-client
 ```
 
 ## 사용법 (Usage)
 
-### 기본 데이터 조회
+### 1. API 키 설정 (API Key Configuration)
+
+API 키는 두 가지 방식으로 설정할 수 있습니다.
+
+**방법 A: 환경 변수 사용 (권장)**
+`.env` 파일을 생성하거나 환경 변수를 설정합니다.
+```bash
+export ASSEMBLY_API_KEY="YOUR_API_KEY"
+```
+
+**방법 B: 클라이언트 직접 주입**
+```python
+client = AssemblyAPIClient(api_key="YOUR_API_KEY")
+```
+
+### 2. 기본 데이터 조회
 
 ```python
 import asyncio
@@ -26,8 +49,8 @@ from assembly_client.api import AssemblyAPIClient
 from assembly_client.generated import Service
 
 async def main():
-    # API 키는 환경 변수 ASSEMBLY_API_KEY로 설정하거나 직접 전달할 수 있습니다.
-    async with AssemblyAPIClient(api_key="YOUR_API_KEY") as client:
+    # 환경 변수가 설정되어 있다면 api_key 생략 가능
+    async with AssemblyAPIClient() as client:
         
         # 서비스 ID 또는 Enum을 사용하여 데이터 조회
         # 예: 국회의원 발의법률안 조회
@@ -40,16 +63,32 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-### CLI 사용
+### 3. CLI 사용 (uv 기반)
 
 API 명세 동기화:
 ```bash
-python -m assembly_client.cli sync
+uv run python -m assembly_client.cli sync
 ```
 
 사용 가능한 API 목록 조회:
 ```bash
-python -m assembly_client.cli list
+uv run python -m assembly_client.cli list
+```
+
+## 유지보수 (Maintenance)
+
+### API 명세 및 Fixture 업데이트
+국회 API는 수시로 변경되거나 새로운 서비스가 추가될 수 있습니다. 
+새로운 API가 추가되면 `sync` 명령어로 명세를 업데이트하고, 테스트를 위한 Fixture도 새로 받아야 합니다.
+
+이 프로젝트는 매일 자동으로 변경사항을 확인하도록 설정되어 있습니다. 수동으로 업데이트하려면:
+
+```bash
+# 1. 명세 동기화 및 코드 재생성
+./scripts/update_client.sh
+
+# 2. (필요시) 새로운 Fixture 생성
+# 새로운 서비스가 추가되었다면 해당 서비스의 샘플 데이터를 받아 테스트에 추가해야 합니다.
 ```
 
 ## 개발 및 기여 (Development)

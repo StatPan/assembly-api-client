@@ -4,8 +4,6 @@ Command Line Interface for Assembly API Client.
 
 import asyncio
 import logging
-import os
-from pathlib import Path
 from typing import Optional
 
 import typer
@@ -13,7 +11,7 @@ from rich.console import Console
 from rich.table import Table
 
 from .parser import SpecParser
-from .sync import sync_all_services, load_service_map
+from .sync import load_service_map, sync_all_services
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -42,9 +40,7 @@ def sync(
     console.print(f"[bold green]Starting sync...[/bold green] (Cache: {parser.cache_dir})")
 
     async def run_sync():
-        stats = await sync_all_services(
-            api_key=api_key, parser=parser, limit=limit, force_update_list=force
-        )
+        stats = await sync_all_services(api_key=api_key, parser=parser, limit=limit, force_update_list=force)
         return stats
 
     stats = asyncio.run(run_sync())
@@ -89,31 +85,26 @@ def info(service_id: str):
     Show details for a specific API service.
     """
     parser = get_parser()
-    
+
     async def get_spec():
         return await parser.parse_spec(service_id)
 
     try:
         spec = asyncio.run(get_spec())
-        
+
         console.print(f"[bold]Service ID:[/bold] {spec.service_id}")
         console.print(f"[bold]Endpoint:[/bold] {spec.endpoint}")
         console.print(f"[bold]URL:[/bold] {spec.endpoint_url}")
-        
+
         table = Table(title="Request Parameters")
         table.add_column("Name", style="cyan")
         table.add_column("Type", style="magenta")
         table.add_column("Required", style="red")
         table.add_column("Description")
-        
+
         for p in spec.request_params:
-            table.add_row(
-                p.name, 
-                p.type, 
-                "Yes" if p.required else "No", 
-                p.description
-            )
-            
+            table.add_row(p.name, p.type, "Yes" if p.required else "No", p.description)
+
         console.print(table)
 
     except Exception as e:

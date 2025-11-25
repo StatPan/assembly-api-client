@@ -5,10 +5,8 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Optional
 
 import httpx
 import openpyxl
@@ -84,7 +82,7 @@ class SpecParser:
         Initialize the spec parser.
 
         Args:
-            cache_dir: Directory to cache parsed JSON specs. 
+            cache_dir: Directory to cache parsed JSON specs.
                        If None, uses user cache directory (e.g., ~/.cache/assembly-api-client/specs).
         """
         if cache_dir is None:
@@ -92,7 +90,7 @@ class SpecParser:
             self.cache_dir = cache_base / "specs"
         else:
             self.cache_dir = cache_dir
-            
+
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def _is_valid_excel_file(self, content: bytes) -> bool:
@@ -136,9 +134,7 @@ class SpecParser:
                     raise SpecParseError(f"Downloaded content too small: {len(content)} bytes")
 
                 if not self._is_valid_excel_file(content):
-                    raise SpecParseError(
-                        f"Downloaded content for {service_id} is not a valid Excel file"
-                    )
+                    raise SpecParseError(f"Downloaded content for {service_id} is not a valid Excel file")
 
                 logger.info(f"Downloaded spec for {service_id} ({len(content)} bytes)")
                 return content
@@ -168,8 +164,8 @@ class SpecParser:
         excel_content = await self._download_excel_bytes(service_id, inf_seq)
 
         def _parse_sync(content: bytes):
-            from io import BytesIO
             import re
+            from io import BytesIO
 
             try:
                 wb = openpyxl.load_workbook(BytesIO(content))
@@ -216,69 +212,76 @@ class SpecParser:
                     if (in_basic_section or in_request_section or in_response_section) and len(row) >= 3 and row[1]:
                         # For response fields, row[1] might be the field name or description depending on format
                         # Standard format: Name | Type | Description
-                        
+
                         type_str = str(row[1])
-                        
+
                         # Basic/Request params have "필수"/"선택" in type
                         is_param = "필수" in type_str or "선택" in type_str
-                        
+
                         if in_response_section:
                             # Heuristic to find the Field Name (English) and Description (Korean)
                             # Common formats:
                             # 1. Name | Description | Type
                             # 2. No | Name | Description | Type
                             # 3. No | Description | Name | Type
-                            
+
                             # Skip header rows
-                            if "출력" in str(row[0]) or "설명" in str(row[0]) or "No" in str(row[0]) or "순번" in str(row[0]):
+                            if (
+                                "출력" in str(row[0])
+                                or "설명" in str(row[0])
+                                or "No" in str(row[0])
+                                or "순번" in str(row[0])
+                            ):
                                 continue
-                                
+
                             # Find the column that looks like an English Key (uppercase, underscores)
                             field_name = ""
                             description = ""
                             found_key = False
-                            
+
                             for cell in row:
-                                if not cell: continue
+                                if not cell:
+                                    continue
                                 s = str(cell).strip()
                                 # Check if it looks like an API Key (e.g. BILL_ID, AGE, etc)
                                 # Must be mostly ASCII, maybe uppercase, no Korean
-                                if re.match(r'^[A-Z0-9_]+$', s) and not re.search(r'[가-힣]', s):
+                                if re.match(r"^[A-Z0-9_]+$", s) and not re.search(r"[가-힣]", s):
                                     # Avoid numbers like "1", "1.0" unless they are the only thing?
                                     # But "1" is likely a sequence number.
                                     # Let's assume keys are at least 2 chars or contain letters?
                                     # Some keys might be "ID".
                                     if s.replace(".", "").isdigit():
                                         continue
-                                        
+
                                     field_name = s
                                     found_key = True
                                     break
-                            
+
                             if found_key:
                                 # Description is usually the cell with Korean
                                 for cell in row:
-                                    if not cell: continue
+                                    if not cell:
+                                        continue
                                     s = str(cell).strip()
-                                    if re.search(r'[가-힣]', s):
+                                    if re.search(r"[가-힣]", s):
                                         description = s
                                         break
-                                        
+
                                     # Fallback logic
                                     pass
-                                    
+
                                 # Skip standard error/info codes
                                 if field_name in ["ERROR", "INFO", "CODE", "MESSAGE"]:
                                     continue
-                                    
+
                                 param = APIParameter(
                                     name=field_name,
-                                    type="String", # Default to String as type info is often messy
+                                    type="String",  # Default to String as type info is often messy
                                     required=False,
                                     description=description,
                                 )
                                 response_fields.append(param)
-                            
+
                         elif is_param:
                             param = APIParameter(
                                 name=str(row[0]),

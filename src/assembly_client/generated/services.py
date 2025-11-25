@@ -1,7 +1,9 @@
 from enum import StrEnum
 
+
 class Service(StrEnum):
     """Enumeration of all available Assembly API Services."""
+
     _영문_국회_소식_및_보도자료 = "OOWY4R001216HX11454"
     _영문_국회의원_정보 = "OOWY4R001216HX11447"
     _영문_국회의장_연설문 = "OOWY4R001216HX11445"

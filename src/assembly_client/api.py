@@ -1,18 +1,18 @@
 import logging
 import os
-import urllib.parse
-from pathlib import Path
-from typing import Any, Optional, Union
-from pydantic import BaseModel
+from typing import Any, Union
 
 import httpx
+from pydantic import BaseModel
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from .errors import AssemblyAPIError, SpecParseError
-from .parser import SpecParser, APISpec, load_service_map
+from .parser import APISpec, SpecParser, load_service_map
+
 # Try to import generated types, but don't fail if not generated yet
 try:
-    from .generated import Service, MODEL_MAP
+    from .generated import MODEL_MAP, Service
+
     HAS_GENERATED_TYPES = True
 except ImportError:
     HAS_GENERATED_TYPES = False
@@ -54,7 +54,7 @@ class AssemblyAPIClient:
         self.client = httpx.AsyncClient(timeout=30.0, follow_redirects=True)
         self.spec_parser = spec_parser or SpecParser()
         self.parsed_specs: dict[str, APISpec] = {}
-        
+
         # Load service map (ID -> Name) for name resolution
         self.service_map = load_service_map(self.spec_parser.cache_dir)
         # Create reverse map (Name -> ID)
@@ -63,10 +63,10 @@ class AssemblyAPIClient:
     def search_services(self, keyword: str) -> dict[str, str]:
         """
         Search for services by name or ID.
-        
+
         Args:
             keyword: Search term (case-insensitive).
-            
+
         Returns:
             Dictionary of {service_id: service_name}
         """
@@ -82,18 +82,17 @@ class AssemblyAPIClient:
         # 1. Check if it's a known ID
         if service_id_or_name in self.service_map:
             return service_id_or_name
-            
+
         # 2. Check if it's a known Name
         if service_id_or_name in self.name_to_id:
             return self.name_to_id[service_id_or_name]
-            
+
         # 3. If it looks like an ID (alphanumeric, long), assume it's an ID
         # (Even if not in our cache, maybe it's new?)
         if len(service_id_or_name) > 10 and service_id_or_name.isalnum():
             return service_id_or_name
-            
-        raise AssemblyAPIError("INVALID_ID", f"Could not resolve service: {service_id_or_name}")
 
+        raise AssemblyAPIError("INVALID_ID", f"Could not resolve service: {service_id_or_name}")
 
     async def close(self):
         """Close the underlying HTTP client."""
@@ -120,15 +119,15 @@ class AssemblyAPIClient:
         """
         if service_id not in self.parsed_specs:
             logger.debug(f"Resolving endpoint for {service_id}")
-            
+
             # We don't have the master list loaded here to check for infSeq.
             # But SpecParser defaults to infSeq=2 which works for most.
             # If we need robust infSeq handling, we might need to look it up from a master list.
-            # For now, we'll stick to the default behavior of the original client 
+            # For now, we'll stick to the default behavior of the original client
             # which tried to look it up from self.specs (which was loaded from all_apis.json).
-            
+
             # TODO: Consider loading all_apis.json if it exists to get hints like infSeq.
-            
+
             spec = await self.spec_parser.parse_spec(service_id)
             self.parsed_specs[service_id] = spec
 
@@ -140,10 +139,7 @@ class AssemblyAPIClient:
         retry=retry_if_exception(_is_retryable_error),
     )
     async def get_data(
-        self, 
-        service_id_or_name: str | Service, 
-        params: dict[str, Any] | BaseModel = None, 
-        fmt: str = "json"
+        self, service_id_or_name: str | Service, params: dict[str, Any] | BaseModel = None, fmt: str = "json"
     ) -> Union[dict[str, Any], str, BaseModel, list[BaseModel]]:
         """
         Fetch data from the API using dynamic endpoint resolution.
@@ -198,17 +194,17 @@ class AssemblyAPIClient:
             if fmt.lower() == "json":
                 data = response.json()
                 self._check_api_error(data, endpoint)
-                
+
                 # Try to convert to Pydantic model
                 if HAS_GENERATED_TYPES and service_id in MODEL_MAP:
                     try:
                         model_cls = MODEL_MAP[service_id]
                         # The data structure is usually {endpoint: [{head: ...}, {row: [...]}]}
-                        # We want to parse the rows into a list of models? 
+                        # We want to parse the rows into a list of models?
                         # Or return a wrapper model?
                         # The generated model is for a SINGLE row item.
                         # So we should probably return a list of models.
-                      # Extract rows
+                        # Extract rows
                         # The API returns a dict with a key equal to the service ID
                         # e.g. {"OK7XM...": [{"head": ...}, {"row": ...}]}
                         target_key = service_id
@@ -219,7 +215,7 @@ class AssemblyAPIClient:
                                 if isinstance(val, list) and len(val) >= 2 and "row" in val[1]:
                                     target_key = key
                                     break
-                        
+
                         if target_key in data:
                             items = data[target_key][1]["row"]
                             return [model_cls(**row) for row in items]
@@ -229,22 +225,22 @@ class AssemblyAPIClient:
                     except Exception as e:
                         logger.warning(f"Failed to parse response into model {service_id}: {e}")
                         # Fallback to raw dict
-                
+
                 return data
             else:
                 return response.text
 
         except httpx.HTTPStatusError as e:
             logger.error(f"HTTP error: {e.response.status_code} - {e.response.text}")
-            raise AssemblyAPIError(str(e.response.status_code), str(e))
+            raise AssemblyAPIError(str(e.response.status_code), str(e)) from e
         except Exception as e:
             logger.error(f"API request failed: {e}")
-            raise AssemblyAPIError("UNKNOWN", str(e))
+            raise AssemblyAPIError("UNKNOWN", str(e)) from e
 
     def _check_api_error(self, data: dict[str, Any], endpoint: str):
         """Check for API specific error codes."""
         # The response key is usually the endpoint name (e.g. "nzmimeepazxkubdpn")
-        
+
         if endpoint in data:
             items = data[endpoint]
             for item in items:
@@ -261,6 +257,6 @@ class AssemblyAPIClient:
                                 if code == "INFO-200":
                                     return  # No data is valid result
                                 raise AssemblyAPIError(code, message)
-                            
+
                             if code != "INFO-000":
                                 raise AssemblyAPIError(code, message)

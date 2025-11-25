@@ -3,9 +3,8 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
-from assembly_client.parser import SpecParser
 from assembly_client.errors import SpecParseError
+from assembly_client.parser import SpecParser
 
 
 @pytest.fixture
@@ -28,7 +27,7 @@ async def test_parse_spec_bill_api(spec_parser):
     # Check basic params
     assert len(spec.basic_params) == 4
     param_names = [p.name for p in spec.basic_params]
-    assert "Key" in param_names or "KEY" in param_names # Case might vary
+    assert "Key" in param_names or "KEY" in param_names  # Case might vary
     assert "Type" in param_names
     assert "pIndex" in param_names
     assert "pSize" in param_names

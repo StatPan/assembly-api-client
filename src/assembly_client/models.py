@@ -28,32 +28,16 @@ class Bill(BaseModel):
     bill_id: str = Field(..., description="Bill ID (BILL_ID). Unique identifier.")
     bill_no: str | None = Field(None, description="Bill Number (BILL_NO).")
     bill_name: str = Field(..., description="Bill Name (BILL_NAME).")
-    proposer: str = Field(
-        ..., description="Representative Proposer (PROPOSER). Member or Committee name."
-    )
-    proposer_text: str | None = Field(
-        None, description="Original proposer text (e.g., 'Hong Gil-dong and 10 others')."
-    )
+    proposer: str = Field(..., description="Representative Proposer (PROPOSER). Member or Committee name.")
+    proposer_text: str | None = Field(None, description="Original proposer text (e.g., 'Hong Gil-dong and 10 others').")
     primary_proposer: str | None = Field(None, description="Extracted primary proposer name.")
-    proposer_count: int | None = Field(
-        None, description="Total number of proposers (derived)."
-    )
-    proposer_kind_name: str = Field(
-        ..., description="Proposer Kind (PROPOSER_KIND). 'Member' or 'Committee'."
-    )
-    proc_status: str = Field(
-        ..., description="Processing Status (PROC_STATUS). Current stage."
-    )
+    proposer_count: int | None = Field(None, description="Total number of proposers (derived).")
+    proposer_kind_name: str = Field(..., description="Proposer Kind (PROPOSER_KIND). 'Member' or 'Committee'.")
+    proc_status: str = Field(..., description="Processing Status (PROC_STATUS). Current stage.")
     committee: str = Field(..., description="Committee Name (COMMITTEE).")
-    propose_dt: str | None = Field(
-        None, description="Propose Date (PROPOSE_DT). YYYY-MM-DD."
-    )
-    committee_dt: str | None = Field(
-        None, description="Committee Referral Date (COMMITTEE_DT). YYYY-MM-DD."
-    )
-    proc_dt: str | None = Field(
-        None, description="Final Process Date (PROC_DT). YYYY-MM-DD."
-    )
+    propose_dt: str | None = Field(None, description="Propose Date (PROPOSE_DT). YYYY-MM-DD.")
+    committee_dt: str | None = Field(None, description="Committee Referral Date (COMMITTEE_DT). YYYY-MM-DD.")
+    proc_dt: str | None = Field(None, description="Final Process Date (PROC_DT). YYYY-MM-DD.")
     link_url: str = Field(..., description="Detail Link URL (LINK_URL).")
 
 
@@ -63,9 +47,7 @@ class BillDetail(Bill):
     Adds summary and reason to the basic Bill model.
     """
 
-    summary: str | None = Field(
-        None, description="Major Content (MAJOR_CONTENT). Summary of the bill."
-    )
+    summary: str | None = Field(None, description="Major Content (MAJOR_CONTENT). Summary of the bill.")
     reason: str | None = Field(None, description="Propose Reason (PROPOSE_REASON).")
 
 
@@ -89,9 +71,7 @@ class Committee(BaseModel):
 
     committee_code: str = Field(..., description="Committee Code (HR_DEPT_CD).")
     committee_name: str = Field(..., description="Committee Name (COMMITTEE_NAME).")
-    committee_div: str | None = Field(
-        None, description="Committee Division (CMT_DIV_NM). e.g., Standing Committee."
-    )
+    committee_div: str | None = Field(None, description="Committee Division (CMT_DIV_NM). e.g., Standing Committee.")
     chairperson: str | None = Field(None, description="Chairperson (HG_NM).")
     member_count: int | None = Field(None, description="Current Members (CURR_CNT).")
     limit_count: int | None = Field(None, description="Limit Count (LIMIT_CNT).")
@@ -101,7 +81,7 @@ class Member(BaseModel):
     """
     Member Information Data Model.
     """
-    
+
     member_seq: str = Field(..., description="Member Sequence (HG_NM). Unique ID.")
     name: str = Field(..., description="Member Name (HG_NM).")
     party: str | None = Field(None, description="Political Party (POLY_NM).")
@@ -110,4 +90,3 @@ class Member(BaseModel):
     gender: str | None = Field(None, description="Gender (SEX_GBN_NM).")
     elected_count: str | None = Field(None, description="Elected Count (REELE_GBN_NM).")
     units: str | None = Field(None, description="Units (UNITS).")
-    
