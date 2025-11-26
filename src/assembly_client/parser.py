@@ -134,7 +134,28 @@ class SpecParser:
                     raise SpecParseError(f"Downloaded content too small: {len(content)} bytes")
 
                 if not self._is_valid_excel_file(content):
-                    raise SpecParseError(f"Downloaded content for {service_id} is not a valid Excel file")
+                    # Provide diagnostic information
+                    preview = content[:200].decode("utf-8", errors="replace")
+                    is_html = content.startswith(b"<!DOCTYPE") or content.startswith(b"<html")
+
+                    error_msg = f"Downloaded content for {service_id} is not a valid Excel file."
+                    if is_html:
+                        error_msg += (
+                            f"\n\nThe server returned an HTML page instead of an Excel file. "
+                            f"This usually means:\n"
+                            f"1. The service ID '{service_id}' is invalid or not found\n"
+                            f"2. The infSeq parameter ({inf_seq}) is incorrect\n"
+                            f"3. The public data portal's spec download endpoint has changed\n\n"
+                            f"Content preview: {preview[:100]}..."
+                        )
+                    else:
+                        error_msg += (
+                            f"\n\nContent starts with: {content[:50]!r}\n"
+                            f"Expected Excel magic numbers (ZIP format): PK\\x03\\x04\n"
+                            f"This may indicate a temporary server error or API change."
+                        )
+
+                    raise SpecParseError(error_msg)
 
                 logger.info(f"Downloaded spec for {service_id} ({len(content)} bytes)")
                 return content
