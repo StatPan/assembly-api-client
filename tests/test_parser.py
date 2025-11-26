@@ -184,3 +184,25 @@ async def test_parse_spec_rejects_html_error_page(spec_parser):
             await spec_parser.parse_spec(service_id)
 
         assert "not a valid Excel file" in str(exc_info.value)
+
+
+@pytest.mark.asyncio
+async def test_parse_spec_with_infseq_fallback(spec_parser):
+    """Test automatic fallback from infSeq=2 to infSeq=1 for problematic services.
+
+    Service OS46YD0012559515463 returns HTML error page for infSeq=2
+    but works correctly with infSeq=1. This test verifies the automatic
+    fallback mechanism handles this gracefully.
+    """
+    service_id = "OS46YD0012559515463"
+
+    # Clear cache to force fresh download
+    spec_parser.clear_cache(service_id)
+
+    # Should automatically fallback to infSeq=1 and succeed
+    spec = await spec_parser.parse_spec(service_id)
+
+    assert spec.service_id == service_id
+    assert spec.endpoint == "BPMBILLSUMMARY"
+    assert spec.endpoint_url == "https://open.assembly.go.kr/portal/openapi/BPMBILLSUMMARY"
+    assert len(spec.basic_params) > 0
