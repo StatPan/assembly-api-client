@@ -168,6 +168,9 @@ class SpecParser:
         Get API specification.
         1. Checks if JSON spec exists in cache.
         2. If not, downloads Excel to memory, parses it, saves JSON to cache, and returns it.
+
+        Note: If download fails with the provided infSeq value, automatically retries with infSeq=1
+        as a fallback, since some services only work with infSeq=1.
         """
         json_file = self.cache_dir / f"{service_id}.json"
 
@@ -181,8 +184,37 @@ class SpecParser:
             except Exception as e:
                 logger.warning(f"Failed to load cached spec for {service_id}, re-downloading: {e}")
 
-        # 2. Download and Parse (Stream Processing)
-        excel_content = await self._download_excel_bytes(service_id, inf_seq)
+        # 2. Download and Parse (Stream Processing with automatic fallback)
+        excel_content = None
+        last_error = None
+
+        # Try the requested infSeq first
+        try:
+            excel_content = await self._download_excel_bytes(service_id, inf_seq)
+        except SpecParseError as e:
+            last_error = e
+            # If default infSeq=2 fails and we haven't tried infSeq=1 yet, try it as fallback
+            if inf_seq != 1:
+                logger.warning(
+                    f"Failed to download spec for {service_id} with infSeq={inf_seq}, "
+                    f"retrying with infSeq=1 as fallback"
+                )
+                try:
+                    excel_content = await self._download_excel_bytes(service_id, inf_seq=1)
+                    logger.info(f"Successfully downloaded spec for {service_id} using fallback infSeq=1")
+                except SpecParseError as fallback_error:
+                    # Both attempts failed, raise the original error with context
+                    raise SpecParseError(
+                        f"Failed to download spec for {service_id} with both infSeq={inf_seq} and infSeq=1.\n"
+                        f"Original error (infSeq={inf_seq}): {last_error}\n"
+                        f"Fallback error (infSeq=1): {fallback_error}"
+                    ) from last_error
+            else:
+                # We already tried infSeq=1, no fallback available
+                raise
+
+        if excel_content is None:
+            raise SpecParseError(f"Failed to download spec for {service_id}: {last_error}")
 
         def _parse_sync(content: bytes):
             import re
