@@ -72,5 +72,19 @@ dev = [
     "ruff",
     "pre-commit",
     "rich",
+    "python-semantic-release>=9.0.0",
 ]
 
+[tool.semantic_release]
+version_variables = [
+    "src/assembly_client/__init__.py:__version__",
+    "pyproject.toml:version"
+]
+commit_parser = "angular"
+build_command = "pip install build && python -m build"
+
+[tool.semantic_release.branches.master]
+match = "(master|main)"
+
+[tool.semantic_release.publish]
+upload_to_vcs_release = true
