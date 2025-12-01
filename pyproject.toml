@@ -1,90 +1,31 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "assembly-api-client"
 version = "0.1.0"
-description = "A robust Python client for the Korean National Assembly Open API"
+description = "A Python client for the Korean National Assembly Open API"
 readme = "README.md"
-requires-python = ">=3.10"
-license = "MIT"
-authors = [
-    { name = "Statpan", email = "statpan@example.com" },
+requires-python = ">=3.8"
+dependencies = [
+    "httpx>=0.24.0",
+    "openpyxl>=3.1.0",
 ]
-keywords = ["korea", "assembly", "api", "client", "open-api"]
+authors = [
+    { name = "StatPan", email = "contact@statpan.com" }
+]
+license = { text = "MIT" }
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-]
-dependencies = [
-    "httpx>=0.25.0",
-    "openpyxl>=3.1.0",
-    "pydantic>=2.0.0",
-    "tenacity>=8.0.0",
-    "typer>=0.9.0",
-    "platformdirs>=3.0.0",
-    "python-dotenv>=1.0.0",
 ]
 
-[project.urls]
-Homepage = "https://github.com/statpan/assembly-api-client"
-Repository = "https://github.com/statpan/assembly-api-client"
-
-[project.scripts]
-assembly-client = "assembly_client.cli:app"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/assembly_client"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-addopts = "-v"
-
-[tool.ruff]
-line-length = 120
-target-version = "py310"
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "B"]
-ignore = []
-
-[tool.ruff.lint.per-file-ignores]
-"src/assembly_client/generated/*" = ["E501", "F403", "F405"]
-"tests/*" = ["E501"]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-skip-magic-trailing-comma = false
-line-ending = "auto"
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pytest-asyncio",
-    "ruff",
-    "pre-commit",
-    "rich",
-    "python-semantic-release>=9.0.0",
-]
-
-[tool.semantic_release]
-version_variables = [
-    "src/assembly_client/__init__.py:__version__",
-    "pyproject.toml:version"
-]
-commit_parser = "angular"
-build_command = "pip install build && python -m build"
-
-[tool.semantic_release.branches.master]
-match = "(master|main)"
-
-[tool.semantic_release.publish]
-upload_to_vcs_release = true
+packages = ["assembly_client"]
