@@ -5,14 +5,38 @@ on:
     branches:
       - main
       - master
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: 'Choose runner'
+        default: 'self-hosted'
+        type: choice
+        options:
+          - self-hosted
+          - ubuntu-latest
 
 permissions:
   contents: write
   id-token: write
 
 jobs:
-  release:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      runner: ${{ steps.set-runner.outputs.runner }}
+    steps:
+      - name: Determine runner
+        id: set-runner
+        run: |
+          SELECTED_RUNNER="${{ github.event.inputs.runner }}"
+          if [ -z "$SELECTED_RUNNER" ]; then
+            SELECTED_RUNNER="self-hosted"
+          fi
+          echo "runner=$SELECTED_RUNNER" >> $GITHUB_OUTPUT
+
+  release:
+    needs: setup
+    runs-on: ${{ needs.setup.outputs.runner }}
     concurrency: release
     
     steps:

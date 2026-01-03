@@ -1,8 +1,19 @@
 # CHANGELOG
 
+## v1.0.0 (2026-01-03)
 
+### Breaking Changes
 
-## v0.1.0 (2025-11-29)
+* feat: Release v1.0.0 - Stable version with defunct APIs removed
+
+The following services were removed because they are no longer provided by the official National Assembly Open API portal (returning 404/Error pages):
+- `국회미래연구원_미래생각` (OT5EH10012030D12149)
+- `국회미래연구원_미래서평` (OQX4LR0011965K19194)
+- `의원연맹별_보조금_예산` (ONVQB00009257H12418)
+
+Users should update their code to remove references to these `Service` enum members.
+
+## v0.1.1 (2025-11-29)
 
 ### Chore
 

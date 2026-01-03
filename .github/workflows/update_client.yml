@@ -7,8 +7,19 @@ on:
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
-  update-client:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      runner: ${{ steps.set-runner.outputs.runner }}
+    steps:
+      - name: Determine runner
+        id: set-runner
+        run: |
+          echo "runner=self-hosted" >> $GITHUB_OUTPUT
+
+  update-client:
+    needs: setup
+    runs-on: ${{ needs.setup.outputs.runner }}
     steps:
       - uses: actions/checkout@v3
 
