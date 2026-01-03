@@ -52,31 +52,35 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Fix git safe directory
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
         with:
           python-version: '3.11'
 
       - name: Python Semantic Release
         id: release
-        uses: python-semantic-release/python-semantic-release@v9.8.0
+        uses: python-semantic-release/python-semantic-release@31a691e771e103d6b9c70baafc75fb2cc9f48207
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish package distributions to PyPI
         if: steps.release.outputs.released == 'true'
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e
         with:
           password: ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish package distributions to GitHub Releases
         if: steps.release.outputs.released == 'true'
-        uses: python-semantic-release/upload-to-gh-release@main
+        uses: python-semantic-release/upload-to-gh-release@0a92b5d7ebfc15a84f9801ebd1bf706343d43711
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.release.outputs.tag }}

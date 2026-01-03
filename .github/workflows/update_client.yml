@@ -47,10 +47,17 @@ jobs:
     needs: setup
     runs-on: ${{ needs.setup.outputs.runner }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fix git safe directory
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
         with:
           python-version: '3.11'
 
@@ -86,7 +93,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.git-check.outputs.changes == 'true'
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@dd2d20b33da58624bc760256fef92e939693bc4c
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "feat: update api client specs to v${{ steps.bump-version.outputs.new_version }}"
