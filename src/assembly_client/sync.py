@@ -40,6 +40,7 @@ async def fetch_master_list(api_key: str, parser: SpecParser) -> List[Dict]:
     all_rows = []
     p_index = 1
     p_size = 100
+    total_count = None
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         while True:
@@ -57,15 +58,27 @@ async def fetch_master_list(api_key: str, parser: SpecParser) -> List[Dict]:
                 response.raise_for_status()
                 data = response.json()
 
-                if MASTER_LIST_SERVICE_ID in data:
-                    service_data = data[MASTER_LIST_SERVICE_ID]
+                if master_endpoint in data:
+                    service_data = data[master_endpoint]
+                    
+                    # Get total count on first page
+                    if total_count is None:
+                        head = service_data[0].get("head", [])
+                        for h in head:
+                            if "list_total_count" in h:
+                                total_count = h["list_total_count"]
+                                break
+                    
                     # Structure: [ {head}, {row: []} ]
                     if len(service_data) > 1 and "row" in service_data[1]:
                         rows = service_data[1]["row"]
                         all_rows.extend(rows)
 
+                        # Finish if we've collected everything or no more rows returned
+                        if total_count and len(all_rows) >= total_count:
+                            break
                         if len(rows) < p_size:
-                            break  # Last page
+                            break
                         p_index += 1
                     else:
                         break  # No more data

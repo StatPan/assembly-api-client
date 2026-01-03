@@ -51,10 +51,12 @@ def generate_services_enum(cache_dir: Path) -> str:
         # Sanitize name for Python identifier
         # Remove spaces, special chars
         safe_name = re.sub(r"[^a-zA-Z0-9가-힣]", "_", name)
+        # Remove leading/trailing underscores and collapse multiple underscores
+        safe_name = re.sub(r"_+", "_", safe_name).strip("_")
 
-        # If it starts with digit, prefix
+        # If it starts with digit, prefix with S to avoid starting with underscore (private)
         if safe_name[0].isdigit():
-            safe_name = f"_{safe_name}"
+            safe_name = f"S{safe_name}"
 
         lines.append(f'    {safe_name} = "{service_id}"')
 
