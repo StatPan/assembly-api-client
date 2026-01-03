@@ -26,29 +26,22 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          # Default to ubuntu-latest
           SELECTED_RUNNER="ubuntu-latest"
-          
-          # 1. Manual override
           if [ "${{ github.event.inputs.runner }}" != "" ] && [ "${{ github.event.inputs.runner }}" != "auto" ]; then
             SELECTED_RUNNER="${{ github.event.inputs.runner }}"
-          # 2. Auto detection (check if self-hosted is online)
           else
             ONLINE_RUNNER=$(gh api repos/${{ github.repository }}/actions/runners --jq '.runners[] | select(.labels[].name=="self-hosted" and .status=="online") | .name' | head -n 1)
             if [ ! -z "$ONLINE_RUNNER" ]; then
               SELECTED_RUNNER="self-hosted"
             fi
           fi
-          
           echo "runner=$SELECTED_RUNNER" >> $GITHUB_OUTPUT
-          echo "Selected runner: $SELECTED_RUNNER"
 
   update-client:
     needs: setup
     runs-on: ${{ needs.setup.outputs.runner }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -61,10 +54,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install uv
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Set up uv
+        uses: astral-sh/setup-uv@88ce97e1b0599f626243d7328ad593bb2d7aa9b9
 
       - name: Install Dependencies
         run: |
@@ -85,17 +76,17 @@ jobs:
 
       - name: Bump Version
         if: steps.git-check.outputs.changes == 'true'
+        id: bump-version
         run: |
           python scripts/bump_version.py
           NEW_VERSION=$(grep -oP 'version = "\K[^"]+' pyproject.toml)
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-        id: bump-version
 
       - name: Create Pull Request
         if: steps.git-check.outputs.changes == 'true'
         uses: peter-evans/create-pull-request@dd2d20b33da58624bc760256fef92e939693bc4c
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           commit-message: "feat: update api client specs to v${{ steps.bump-version.outputs.new_version }}"
           title: "Update API Client Specs to v${{ steps.bump-version.outputs.new_version }}"
           body: |

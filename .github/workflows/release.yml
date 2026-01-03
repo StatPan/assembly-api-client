@@ -32,7 +32,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: |
           SELECTED_RUNNER="ubuntu-latest"
-          
           if [ "${{ github.event.inputs.runner }}" != "" ] && [ "${{ github.event.inputs.runner }}" != "auto" ]; then
             SELECTED_RUNNER="${{ github.event.inputs.runner }}"
           else
@@ -41,9 +40,7 @@ jobs:
               SELECTED_RUNNER="self-hosted"
             fi
           fi
-          
           echo "runner=$SELECTED_RUNNER" >> $GITHUB_OUTPUT
-          echo "Selected runner: $SELECTED_RUNNER"
 
   release:
     needs: setup
@@ -66,10 +63,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@88ce97e1b0599f626243d7328ad593bb2d7aa9b9
+
       - name: Install Release Tools
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
           uv pip install --system python-semantic-release
 
       - name: Python Semantic Release
@@ -77,11 +75,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          # Run semantic-release directly instead of using the container-based action
+          # Use uvx or direct execution after install
           semantic-release version --vcs-release
-          # Set output if released (semantic-release creates a tag if successful)
-          if [ -f "VERSION" ]; then
+          # Check if a new tag was created to determine if a release happened
+          NEW_TAG=$(git describe --tags --abbrev=0 --exact-match 2>/dev/null || echo "")
+          if [ ! -z "$NEW_TAG" ]; then
             echo "released=true" >> $GITHUB_OUTPUT
+            echo "tag=$NEW_TAG" >> $GITHUB_OUTPUT
           fi
 
       - name: Publish package distributions to PyPI
