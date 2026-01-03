@@ -8,10 +8,11 @@ on:
   workflow_dispatch:
     inputs:
       runner:
-        description: 'Choose runner'
-        default: 'self-hosted'
+        description: 'Choose runner manually (optional)'
         type: choice
+        default: 'auto'
         options:
+          - auto
           - self-hosted
           - ubuntu-latest
 
@@ -27,12 +28,22 @@ jobs:
     steps:
       - name: Determine runner
         id: set-runner
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          SELECTED_RUNNER="${{ github.event.inputs.runner }}"
-          if [ -z "$SELECTED_RUNNER" ]; then
-            SELECTED_RUNNER="self-hosted"
+          SELECTED_RUNNER="ubuntu-latest"
+          
+          if [ "${{ github.event.inputs.runner }}" != "" ] && [ "${{ github.event.inputs.runner }}" != "auto" ]; then
+            SELECTED_RUNNER="${{ github.event.inputs.runner }}"
+          else
+            ONLINE_RUNNER=$(gh api repos/${{ github.repository }}/actions/runners --jq '.runners[] | select(.labels[].name=="self-hosted" and .status=="online") | .name' | head -n 1)
+            if [ ! -z "$ONLINE_RUNNER" ]; then
+              SELECTED_RUNNER="self-hosted"
+            fi
           fi
+          
           echo "runner=$SELECTED_RUNNER" >> $GITHUB_OUTPUT
+          echo "Selected runner: $SELECTED_RUNNER"
 
   release:
     needs: setup

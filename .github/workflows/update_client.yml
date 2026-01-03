@@ -4,7 +4,16 @@ on:
   schedule:
     # Run every day at midnight KST (15:00 UTC previous day)
     - cron: '0 15 * * *'
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: 'Choose runner manually (optional)'
+        type: choice
+        default: 'auto'
+        options:
+          - auto
+          - self-hosted
+          - ubuntu-latest
 
 jobs:
   setup:
@@ -14,8 +23,25 @@ jobs:
     steps:
       - name: Determine runner
         id: set-runner
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          echo "runner=self-hosted" >> $GITHUB_OUTPUT
+          # Default to ubuntu-latest
+          SELECTED_RUNNER="ubuntu-latest"
+          
+          # 1. Manual override
+          if [ "${{ github.event.inputs.runner }}" != "" ] && [ "${{ github.event.inputs.runner }}" != "auto" ]; then
+            SELECTED_RUNNER="${{ github.event.inputs.runner }}"
+          # 2. Auto detection (check if self-hosted is online)
+          else
+            ONLINE_RUNNER=$(gh api repos/${{ github.repository }}/actions/runners --jq '.runners[] | select(.labels[].name=="self-hosted" and .status=="online") | .name' | head -n 1)
+            if [ ! -z "$ONLINE_RUNNER" ]; then
+              SELECTED_RUNNER="self-hosted"
+            fi
+          fi
+          
+          echo "runner=$SELECTED_RUNNER" >> $GITHUB_OUTPUT
+          echo "Selected runner: $SELECTED_RUNNER"
 
   update-client:
     needs: setup
@@ -28,10 +54,15 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
       - name: Install Dependencies
         run: |
-          pip install -e .
-          pip install httpx openpyxl pydantic tenacity typer rich platformdirs
+          uv pip install --system -e .
+          uv pip install --system httpx openpyxl pydantic tenacity typer rich platformdirs
 
       - name: Run Update Script
         env:
@@ -68,4 +99,3 @@ jobs:
             - Regenerated Enums and Pydantic Models
             - **Version bumped to ${{ steps.bump-version.outputs.new_version }}**
           branch: update-api-specs
-
