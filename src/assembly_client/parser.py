@@ -70,6 +70,9 @@ class APISpec:
 class SpecParser:
     """Parser for Excel API specification files."""
 
+    # Order of infSeq values to try when downloading specs
+    DEFAULT_INF_SEQ_ORDER = [2, 1, 3, 4, 5]
+
     # Excel files (.xlsx) are ZIP archives with this magic number
     EXCEL_MAGIC_NUMBERS = [
         b"PK\x03\x04",  # Standard ZIP file (used by .xlsx)
@@ -188,7 +191,7 @@ class SpecParser:
         excel_content = None
         
         # Try a range of infSeq values as some services use non-standard ones (1, 2, 3...)
-        attempt_seqs = [inf_seq] + [s for s in [2, 1, 3, 4, 5] if s != inf_seq]
+        attempt_seqs = [inf_seq] + [s for s in self.DEFAULT_INF_SEQ_ORDER if s != inf_seq]
         last_error = None
 
         for seq in attempt_seqs:

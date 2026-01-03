@@ -62,7 +62,7 @@ async def fetch_master_list(api_key: str, parser: SpecParser) -> List[Dict]:
                     service_data = data[master_endpoint]
                     
                     # Get total count on first page
-                    if total_count is None:
+                    if total_count is None and service_data:
                         head = service_data[0].get("head", [])
                         for h in head:
                             if "list_total_count" in h:
