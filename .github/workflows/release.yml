@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Fix git safe directory
         run: |
@@ -66,21 +66,26 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Release Tools
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          uv pip install --system python-semantic-release
+
       - name: Python Semantic Release
         id: release
-        uses: python-semantic-release/python-semantic-release@31a691e771e103d6b9c70baafc75fb2cc9f48207
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          # Run semantic-release directly instead of using the container-based action
+          semantic-release version --vcs-release
+          # Set output if released (semantic-release creates a tag if successful)
+          if [ -f "VERSION" ]; then
+            echo "released=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Publish package distributions to PyPI
         if: steps.release.outputs.released == 'true'
         uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e
         with:
           password: ${{ secrets.PYPI_TOKEN }}
-
-      - name: Publish package distributions to GitHub Releases
-        if: steps.release.outputs.released == 'true'
-        uses: python-semantic-release/upload-to-gh-release@0a92b5d7ebfc15a84f9801ebd1bf706343d43711
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.release.outputs.tag }}
