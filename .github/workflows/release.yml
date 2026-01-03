@@ -68,7 +68,7 @@ jobs:
 
       - name: Install Release Tools
         run: |
-          uv pip install --system python-semantic-release
+          uv pip install --system python-semantic-release build
 
       - name: Python Semantic Release
         id: release
@@ -81,6 +81,11 @@ jobs:
             echo "released=true" >> $GITHUB_OUTPUT
             echo "tag=$NEW_TAG" >> $GITHUB_OUTPUT
           fi
+
+      - name: Build package
+        if: steps.release.outputs.released == 'true'
+        run: |
+          uv build
 
       - name: Publish package distributions to PyPI
         if: steps.release.outputs.released == 'true'
