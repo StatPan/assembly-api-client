@@ -104,6 +104,10 @@ pytest
 ./scripts/update_client.sh
 ```
 
+## 기여하기 (Contributing)
+
+이 프로젝트에 기여하고 싶으시다면 [기여 가이드](docs/CONTRIBUTING.md)를 참고해 주세요. 커밋 메시지 규약 및 자동 배포 프로세스에 대한 자세한 내용을 확인하실 수 있습니다.
+
 ## 라이선스 (License)
 
 MIT License
