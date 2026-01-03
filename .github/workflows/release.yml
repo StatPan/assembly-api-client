@@ -61,12 +61,12 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
         with:
           python-version: '3.11'
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@e58605a9b6da7c637471fab8847a5e5a6b8df081
+        uses: astral-sh/setup-uv@b5f58b2abc5763ade55e4e9d0fe52cd1ff7979ca
 
       - name: Install Release Tools
         run: |
@@ -81,16 +81,15 @@ jobs:
           NEW_TAG=$(git describe --tags --abbrev=0 --exact-match 2>/dev/null || echo "")
           if [ ! -z "$NEW_TAG" ]; then
             echo "released=true" >> $GITHUB_OUTPUT
-            echo "released=true" >> $GITHUB_ENV
           fi
 
       - name: Build package
-        if: env.released == 'true'
+        if: steps.release.outputs.released == 'true'
         run: |
           uv build
 
       - name: Upload Artifacts
-        if: env.released == 'true'
+        if: steps.release.outputs.released == 'true'
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
           name: dist
@@ -102,12 +101,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@fa0b9129d5ad2412c5df302ad09ff037065f9c65
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
         with:
           name: dist
           path: dist/
 
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e
+        uses: pypa/gh-action-pypi-publish@7f25271a4aa483500f742f9492b2ab5648d61011
         with:
           password: ${{ secrets.PYPI_TOKEN }}
