@@ -128,9 +128,12 @@ def cleanup_orphaned_specs(cache_dir: Path, active_service_ids: set[str]):
             
         service_id = json_file.stem
         if service_id not in active_service_ids:
-            logger.info(f"Removing orphaned spec cache: {json_file.name}")
-            json_file.unlink()
-            removed_count += 1
+            try:
+                logger.info(f"Removing orphaned spec cache: {json_file.name}")
+                json_file.unlink()
+                removed_count += 1
+            except OSError as e:
+                logger.error(f"Failed to remove orphaned spec {json_file.name}: {e}")
             
     if removed_count > 0:
         logger.info(f"Cleaned up {removed_count} orphaned spec files.")
