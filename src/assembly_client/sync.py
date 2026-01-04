@@ -116,6 +116,29 @@ def save_master_list(rows: List[Dict], cache_dir: Path):
     logger.info(f"Saved {len(rows)} APIs to {output_file}")
 
 
+def cleanup_orphaned_specs(cache_dir: Path, active_service_ids: set[str]):
+    """Remove cached spec files that are no longer in the active service list."""
+    # Always keep the master list and the bootstrapper spec
+    protected_files = {"all_apis.json", f"{MASTER_LIST_SERVICE_ID}.json"}
+    
+    removed_count = 0
+    for json_file in cache_dir.glob("*.json"):
+        if json_file.name in protected_files:
+            continue
+            
+        service_id = json_file.stem
+        if service_id not in active_service_ids:
+            try:
+                logger.info(f"Removing orphaned spec cache: {json_file.name}")
+                json_file.unlink()
+                removed_count += 1
+            except OSError as e:
+                logger.error(f"Failed to remove orphaned spec {json_file.name}: {e}")
+            
+    if removed_count > 0:
+        logger.info(f"Cleaned up {removed_count} orphaned spec files.")
+
+
 async def sync_service(parser: SpecParser, service_id: str, service_name: str | None = None) -> str:
     """
     Sync a single service by parsing its spec (downloads if not cached).
@@ -155,6 +178,9 @@ async def sync_all_services(
     # 2. Load Services
     service_map = load_service_map(parser.cache_dir)
     service_ids = sorted(service_map.keys())
+
+    # Cleanup orphaned specs before starting sync
+    cleanup_orphaned_specs(parser.cache_dir, set(service_ids))
 
     if limit:
         service_ids = service_ids[:limit]
