@@ -240,6 +240,100 @@ class AssemblyAPIClient:
             logger.error(f"API request failed: {e}")
             raise AssemblyAPIError("UNKNOWN", str(e)) from e
 
+    async def get_all_data(
+        self,
+        service_id_or_name: str | Service,
+        params: dict[str, Any] | BaseModel = None,
+        p_size: int = 100,
+    ):
+        """
+        Fetch all pages of data from the API with automatic pagination.
+
+        This is an async generator that yields rows from each page.
+        For INFO-200 (no data) responses, yields nothing and exits cleanly.
+
+        Args:
+            service_id_or_name: The API service ID, Service Name, or Service Enum member.
+            params: Query parameters (pIndex/pSize will be managed internally).
+            p_size: Page size for pagination (default: 100).
+
+        Yields:
+            list[dict]: Rows from each page of data.
+
+        Example:
+            async for rows in client.get_all_data("ServiceName"):
+                for row in rows:
+                    process(row)
+        """
+        p_index = 1
+
+        # Handle Pydantic Params once
+        if isinstance(params, BaseModel):
+            params = params.model_dump(by_alias=True, exclude_none=True)
+        else:
+            params = dict(params) if params else {}
+
+        while True:
+            try:
+                # Set pagination params for this page
+                page_params = {**params, "pIndex": p_index, "pSize": p_size}
+                data = await self.get_data(service_id_or_name, page_params)
+
+                # get_data returns dict for JSON responses
+                if not isinstance(data, dict):
+                    logger.warning(f"Unexpected response type: {type(data)}")
+                    break
+
+                # Get root key (endpoint name or "RESULT")
+                root_key = next(iter(data.keys()), None)
+                if not root_key:
+                    break
+
+                # Handle RESULT-only response (INFO-200: no data)
+                if root_key == "RESULT":
+                    logger.debug(f"RESULT-only response: {data.get('RESULT', {})}")
+                    break
+
+                res_content = data.get(root_key)
+
+                # Validate response structure: should be list with [head, row]
+                if not isinstance(res_content, list) or len(res_content) < 2:
+                    logger.warning(f"Unexpected response structure for {root_key}")
+                    break
+
+                # Extract total count from head
+                total_count = 0
+                try:
+                    head = res_content[0].get("head", [])
+                    for h in head:
+                        if "list_total_count" in h:
+                            total_count = int(h["list_total_count"])
+                            break
+                except (KeyError, IndexError, ValueError, TypeError) as e:
+                    logger.debug(f"Could not extract total_count: {e}")
+
+                # Extract rows
+                rows = res_content[1].get("row", [])
+                if not rows:
+                    break
+
+                yield rows
+
+                # Check if we've fetched all data
+                fetched_count = p_index * p_size
+                if total_count and fetched_count >= total_count:
+                    break
+
+                # Also break if we received less than a full page
+                if len(rows) < p_size:
+                    break
+
+                p_index += 1
+
+            except (KeyError, IndexError, ValueError, TypeError) as e:
+                logger.error(f"Pagination parsing error at page {p_index}: {e}")
+                break
+
     def _check_api_error(self, data: dict[str, Any], endpoint: str):
         """Check for API specific error codes."""
         # The response key is usually the endpoint name (e.g. "nzmimeepazxkubdpn")
