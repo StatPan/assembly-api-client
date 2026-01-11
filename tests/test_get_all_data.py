@@ -61,7 +61,7 @@ async def test_get_all_data_multiple_pages(client):
     """Test pagination across multiple pages."""
     call_count = 0
     
-    async def mock_get_data(service_id, params):
+    async def mock_get_data(service_id, params, **kwargs):
         nonlocal call_count
         call_count += 1
         if call_count == 1:

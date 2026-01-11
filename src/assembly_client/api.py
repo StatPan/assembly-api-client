@@ -142,7 +142,11 @@ class AssemblyAPIClient:
         retry=retry_if_exception(_is_retryable_error),
     )
     async def get_data(
-        self, service_id_or_name: str | Service, params: dict[str, Any] | BaseModel = None, fmt: str = "json"
+        self,
+        service_id_or_name: str | Service,
+        params: dict[str, Any] | BaseModel = None,
+        fmt: str = "json",
+        raw: bool = False,
     ) -> Union[dict[str, Any], str, BaseModel, list[BaseModel]]:
         """
         Fetch data from the API using dynamic endpoint resolution.
@@ -151,9 +155,10 @@ class AssemblyAPIClient:
             service_id_or_name: The API service ID, Service Name, or Service Enum member.
             params: Query parameters.
             fmt: Response format ('json' or 'xml').
+            raw: If True, return raw dict without Pydantic model conversion.
 
         Returns:
-            Parsed JSON dict, raw XML string, or Pydantic Model (if available).
+            Parsed JSON dict, raw XML string, or Pydantic Model (if available and raw=False).
 
         Raises:
             SpecParseError: If endpoint resolution fails
@@ -198,8 +203,8 @@ class AssemblyAPIClient:
                 data = response.json()
                 self._check_api_error(data, endpoint)
 
-                # Try to convert to Pydantic model
-                if HAS_GENERATED_TYPES and service_id in MODEL_MAP:
+                # Try to convert to Pydantic model (skip if raw=True)
+                if not raw and HAS_GENERATED_TYPES and service_id in MODEL_MAP:
                     try:
                         model_cls = MODEL_MAP[service_id]
                         # The data structure is usually {endpoint: [{head: ...}, {row: [...]}]}
@@ -277,7 +282,7 @@ class AssemblyAPIClient:
             try:
                 # Set pagination params for this page
                 page_params = {**params, "pIndex": p_index, "pSize": p_size}
-                data = await self.get_data(service_id_or_name, page_params)
+                data = await self.get_data(service_id_or_name, page_params, raw=True)
 
                 # get_data returns dict for JSON responses
                 if not isinstance(data, dict):
