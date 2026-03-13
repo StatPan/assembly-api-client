@@ -45,3 +45,9 @@ match = "(master|main)"
 
 [tool.semantic_release.publish]
 upload_to_vcs_release = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.24.0",
+]
