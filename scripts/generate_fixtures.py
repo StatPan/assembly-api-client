@@ -14,29 +14,17 @@ logger = logging.getLogger(__name__)
 
 # Load key from env
 API_KEY = os.getenv("ASSEMBLY_API_KEY")
-if not API_KEY:
-    try:
-        with open(".env") as f:
-            for line in f:
-                if line.startswith("ASSEMBLY_API_KEY="):
-                    API_KEY = line.strip().split("=")[1]
-                    break
-    except FileNotFoundError:
-        pass
-
-if not API_KEY:
-    raise ValueError("ASSEMBLY_API_KEY not found")
 
 FIXTURE_DIR = Path("tests/fixtures")
 FIXTURE_DIR.mkdir(parents=True, exist_ok=True)
 
 
-async def fetch_fixture(client: AssemblyAPIClient, service: Service):
+async def fetch_fixture(client: AssemblyAPIClient, service: Service, force: bool = False):
     filename = f"{service.name}.json"
     filepath = FIXTURE_DIR / filename
 
-    if filepath.exists():
-        logger.info(f"Skipping {service.name} (already exists)")
+    if not force and filepath.exists():
+        # logger.info(f"Skipping {service.name} (already exists)")
         return
 
     logger.info(f"Fetching {service.name}...")
@@ -89,39 +77,29 @@ def main(
     force: bool = typer.Option(False, help="Force update existing fixtures"),
     limit: int = typer.Option(None, help="Limit number of fixtures to fetch"),
 ):
-    # Load API Key
-    api_key = os.getenv("ASSEMBLY_API_KEY")
-    if not api_key:
-        # Try .env
+    # Use the global API_KEY or try to load it from .env
+    global API_KEY
+    if not API_KEY:
         try:
             from dotenv import load_dotenv
 
             load_dotenv()
-            api_key = os.getenv("ASSEMBLY_API_KEY")
+            API_KEY = os.getenv("ASSEMBLY_API_KEY")
         except ImportError:
             pass
 
-    if not api_key:
+    if not API_KEY:
         logger.error("ASSEMBLY_API_KEY not found. Cannot generate fixtures.")
         return
 
     async def run():
-        async with AssemblyAPIClient(api_key=api_key) as client:
+        async with AssemblyAPIClient(api_key=API_KEY) as client:
             tasks = []
             sem = asyncio.Semaphore(5)
 
             async def bound_fetch(s):
                 async with sem:
-                    # Pass force flag if we modify fetch_fixture to accept it
-                    # For now, let's handle force logic here or in fetch_fixture
-                    filename = f"{s.name}.json"
-                    filepath = FIXTURE_DIR / filename
-
-                    if not force and filepath.exists():
-                        # logger.info(f"Skipping {s.name} (already exists)")
-                        return
-
-                    await fetch_fixture(client, s)
+                    await fetch_fixture(client, s, force=force)
                     await asyncio.sleep(0.1)
 
             services = list(Service)

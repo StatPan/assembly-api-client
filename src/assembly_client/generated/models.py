@@ -322,6 +322,8 @@ class Model_OK7XM1000938DS17215(BaseModel):
     PROPOSER: Union[str, int, float, None] = Field(None, description="제안자", alias="PROPOSER")
     MEMBER_LIST: Union[str, int, float, None] = Field(None, description="제안자목록링크", alias="MEMBER_LIST")
     LAW_PROC_DT: Union[str, int, float, None] = Field(None, description="법사위처리일", alias="LAW_PROC_DT")
+    LAW_PROC_RESULT_CD: Union[str, int, float, None] = Field(None, description="법사위처리결과", alias="LAW_PROC_RESULT_CD")
+    RST_MONA_CD: Union[str, int, float, None] = Field(None, description="대표발의자코드", alias="RST_MONA_CD")
     LAW_PRESENT_DT: Union[str, int, float, None] = Field(None, description="법사위상정일", alias="LAW_PRESENT_DT")
     LAW_SUBMIT_DT: Union[str, int, float, None] = Field(None, description="법사위회부일", alias="LAW_SUBMIT_DT")
     CMT_PROC_RESULT_CD: Union[str, int, float, None] = Field(None, description="소관위처리결과", alias="CMT_PROC_RESULT_CD")
@@ -330,9 +332,9 @@ class Model_OK7XM1000938DS17215(BaseModel):
     COMMITTEE_DT: Union[str, int, float, None] = Field(None, description="소관위회부일", alias="COMMITTEE_DT")
     PROC_DT: Union[str, int, float, None] = Field(None, description="의결일", alias="PROC_DT")
     COMMITTEE_ID: Union[str, int, float, None] = Field(None, description="소관위원회ID", alias="COMMITTEE_ID")
-    PUBL_PROPOSER: Union[str, int, float, None] = Field(None, description="공동발의자", alias="PUBL_PROPOSER")
-    LAW_PROC_RESULT_CD: Union[str, int, float, None] = Field(None, description="법사위처리결과", alias="LAW_PROC_RESULT_CD")
+    PUBL_MONA_CD: Union[str, int, float, None] = Field(None, description="공동발의자코드", alias="PUBL_MONA_CD")
     RST_PROPOSER: Union[str, int, float, None] = Field(None, description="대표발의자", alias="RST_PROPOSER")
+    PUBL_PROPOSER: Union[str, int, float, None] = Field(None, description="공동발의자", alias="PUBL_PROPOSER")
 
 class Params_OK7XM1000938DS17215(BaseModel):
     """Request parameters for OK7XM1000938DS17215"""

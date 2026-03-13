@@ -56,18 +56,19 @@ jobs:
 
       - name: Set up uv
         uses: astral-sh/setup-uv@b5f58b2abc5763ade55e4e9d0fe52cd1ff7979ca
+        with:
+          enable-cache: true
 
       - name: Install Dependencies
         run: |
-          uv pip install --system -e .
-          uv pip install --system httpx openpyxl pydantic tenacity typer rich platformdirs
+          uv sync --all-extras --dev
 
       - name: Run Update Script
         env:
           ASSEMBLY_API_KEY: ${{ secrets.ASSEMBLY_API_KEY }}
         run: |
           chmod +x scripts/update_client.sh
-          ./scripts/update_client.sh
+          uv run scripts/update_client.sh
 
       - name: Check for changes
         id: git-check
@@ -78,7 +79,7 @@ jobs:
         if: steps.git-check.outputs.changes == 'true'
         id: bump-version
         run: |
-          python scripts/bump_version.py
+          uv run scripts/bump_version.py
           NEW_VERSION=$(grep -oP 'version = "\K[^"]+' pyproject.toml)
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
