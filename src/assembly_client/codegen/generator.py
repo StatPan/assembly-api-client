@@ -47,6 +47,7 @@ def generate_services_enum(cache_dir: Path) -> str:
     # Let's try to make English-like keys if possible, or just use the Korean name sanitized?
     # "국회의원발의법률안" -> valid python identifier? Yes.
 
+    used_names = set()
     for service_id, name in sorted(service_map.items(), key=lambda x: x[1]):
         # Sanitize name for Python identifier
         # Remove spaces, special chars
@@ -61,6 +62,11 @@ def generate_services_enum(cache_dir: Path) -> str:
         if not safe_name:
             safe_name = f"Service_{service_id}"
 
+        # Handle duplicates
+        if safe_name in used_names:
+            safe_name = f"{safe_name}_{service_id}"
+        
+        used_names.add(safe_name)
         lines.append(f'    {safe_name} = "{service_id}"')
     return "\n".join(lines)
 
