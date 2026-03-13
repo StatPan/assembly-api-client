@@ -17,6 +17,6 @@ python scripts/generate_fixtures.py
 
 # 4. Verify with Tests
 echo "Step 4: Running Tests..."
-pytest tests/test_all_services.py
+python -m pytest tests/test_all_services.py
 
 echo "Update Complete! Please review changes and commit."
