@@ -1,0 +1,39 @@
+{
+  "nayjnliqaexiioauy": [
+    {
+      "head": [
+        {
+          "list_total_count": 71
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_A2X6M0C2A2K5S1P0I2L8B0N3W6F7Q3",
+          "BILL_NO": "2217404",
+          "AGE": "22",
+          "BILL_NAME": "체육인 복지법 일부개정법률안(대안)",
+          "CURR_COMMITTEE_ID": "9700513",
+          "CURR_COMMITTEE": "문화체육관광위원회",
+          "PROC_DT": null,
+          "COMMITTEE_RESULT": "2026-02-26",
+          "LINK_URL": "https://likms.assembly.go.kr/filegate/servlet/FileGate?bookId=FF5052EB-D5C4-065E-9B7F-97018407EDF8&type=0",
+          "COMMITTEE_PROC_DT": null,
+          "CMT_PRESENT_DT": "2026-02-26",
+          "LAW_SUBMIT_DT": "2026-02-26",
+          "LAW_PRESENT_DT": "2026-03-11",
+          "LAW_PROC_DT": "2026-03-11",
+          "LAW_PROC_RESULT_CD": "수정가결",
+          "COMMITTEE_DT": null
+        }
+      ]
+    }
+  ]
+}

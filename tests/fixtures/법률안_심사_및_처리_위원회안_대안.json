@@ -1,0 +1,39 @@
+{
+  "nxtkyptyaolzcbfwl": [
+    {
+      "head": [
+        {
+          "list_total_count": 78
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_K2U4H1M0T3P0L1Y8U3J2Z4A6M3D8F4",
+          "BILL_NO": "DD20090",
+          "AGE": "22",
+          "BILL_NAME": "국회의원의 보좌직원과 수당 등에 관한 법률 일부개정법률안(대안)",
+          "PROPOSER": "국회운영위원장",
+          "PROPOSER_KIND": "위원장",
+          "PROPOSE_DT": "2024-10-31",
+          "CURR_COMMITTEE_ID": "9700005",
+          "CURR_COMMITTEE": "국회운영위원회",
+          "COMMITTEE_DT": null,
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_K2U4H1M0T3P0L1Y8U3J2Z4A6M3D8F4",
+          "COMMITTEE_RESULT": "대안가결",
+          "COMMITTEE_PROC_DT": "2024-10-31",
+          "CMT_PRESENT_DT": "2024-10-31",
+          "LAW_SUBMIT_DT": "2024-11-01",
+          "LAW_PRESENT_DT": null
+        }
+      ]
+    }
+  ]
+}
