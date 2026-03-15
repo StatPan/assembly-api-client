@@ -1,0 +1,29 @@
+{
+  "ENSCHEDULENOTICE": [
+    {
+      "head": [
+        {
+          "list_total_count": 20478
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "CONF_SCH_DIV": "Committee",
+          "SESS": "433rd session (extraordinary)",
+          "DGR": "6th",
+          "SCH_DT": "MAR 18, 2026",
+          "SCH_TM": "14:00",
+          "CMIT_NM": "Health and Welfare Committee"
+        }
+      ]
+    }
+  ]
+}

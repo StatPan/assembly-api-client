@@ -1,0 +1,35 @@
+{
+  "BILLJUDGE": [
+    {
+      "head": [
+        {
+          "list_total_count": 35157
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ERACO": "제21대",
+          "BILL_ID": "PRC_M2L0J0Q9F2G5O1K1L3C6R0X9Y8Z5M0",
+          "BILL_NO": "2104240",
+          "BILL_NM": "조세특례제한법 일부개정법률안",
+          "PPSR_KIND": "의원",
+          "PPSL_DT": "2020-09-25",
+          "JRCMIT_NM": "기획재정위원회",
+          "BDG_CMMT_DT": "2020-09-28",
+          "JRCMIT_PRSNT_DT": "2020-11-06",
+          "JRCMIT_PROC_DT": "2020-11-30",
+          "JRCMIT_PROC_RSLT": "대안반영폐기",
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_M2L0J0Q9F2G5O1K1L3C6R0X9Y8Z5M0"
+        }
+      ]
+    }
+  ]
+}

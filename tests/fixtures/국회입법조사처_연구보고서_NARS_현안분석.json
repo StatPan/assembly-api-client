@@ -1,0 +1,27 @@
+{
+  "nvkfeqbsacvlzjmea": [
+    {
+      "head": [
+        {
+          "list_total_count": 726
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1PpUR9CvBQm&fileName=(NARS%20%ED%98%84%EC%95%88%EB%B6%84%EC%84%9D%20399%ED%98%B8-20260310)%EA%B7%B8%EB%A6%B0%EB%9E%80%EB%93%9C%20%EC%9D%B4%EC%8A%88%EC%99%80%20%EB%AF%B8-%EC%9C%A0%EB%9F%BD%20%EA%B4%80%EA%B3%84%20%EC%A0%84%EB%A7%9D.pdf",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1PpUR9CvBQm&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=KE5BUlMg7ZiE7JWI67aE7ISdIDM5Oe2YuC0yMDI2MDMxMCnqt7jrprDrnoDrk5wg7J207IqI7JmAIOuvuC3snKDrn70g6rSA6rOEIOyghOunnS5wZGY%3D",
+          "BOOKNM": "그린란드 이슈와 미-유럽 관계 전망",
+          "INSERTDT": "2026-03-11"
+        }
+      ]
+    }
+  ]
+}

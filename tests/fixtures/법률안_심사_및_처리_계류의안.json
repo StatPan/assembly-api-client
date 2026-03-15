@@ -1,0 +1,43 @@
+{
+  "nwbqublzajtcqpdae": [
+    {
+      "head": [
+        {
+          "list_total_count": 12620
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_W2V6V0T3U1Q1O1P7N1O7M5M2U1T7T6",
+          "BILL_NO": "2217474",
+          "AGE": "22",
+          "BILL_NAME": "방송법 일부개정법률안",
+          "PROPOSER": "한정애의원 등 11인",
+          "PROPOSER_KIND": "의원",
+          "PROPOSE_DT": "2026-03-13",
+          "CURR_COMMITTEE_ID": null,
+          "CURR_COMMITTEE": null,
+          "COMMITTEE_DT": null,
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_W2V6V0T3U1Q1O1P7N1O7M5M2U1T7T6",
+          "CMT_PROC_DT": null,
+          "CMT_PROC_RESULT_CD": null,
+          "RST_MONA_CD": "XPP2564T",
+          "LAW_PRESENT_DT": null,
+          "LAW_PROC_DT": null,
+          "LAW_PROC_RESULT_CD": null,
+          "RST_PROPOSER": "한정애",
+          "CMT_PRESENT_DT": null,
+          "LAW_SUBMIT_DT": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "nxlcxbbkapsrjayur": [
+    {
+      "head": [
+        {
+          "list_total_count": 2490
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1PpRMwpJF3f&fileName=(%EC%9D%B4%EC%8A%88%EC%99%80%EB%85%BC%EC%A0%90%202479%ED%98%B8-20260311)%EC%B0%A8%EA%B7%BC%EC%B0%A8%EA%B7%BC%20%EC%84%9C%EB%91%90%EB%A5%B4%EB%9D%BC%EB%8A%94%20%EA%B0%9C%ED%97%8C%20%EC%97%AC%EB%A1%A0%20%ED%97%8C%EB%B2%95%EA%B0%9C%EC%A0%95%20%EA%B4%80%EB%A0%A8%20%EB%8C%80%EA%B5%AD%EB%AF%BC%20%EC%84%A4%EB%AC%B8%EC%A1%B0%EC%82%AC%20%EB%B6%84%EC%84%9D.pdf",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1PpRMwpJF3f&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=KOydtOyKiOyZgOuFvOygkCAyNDc57Zi4LTIwMjYwMzExKeywqOq3vOywqOq3vCDshJzrkZDrpbTrnbzripQg6rCc7ZeMIOyXrOuhoCDtl4zrspXqsJzsoJUg6rSA66CoIOuMgOq1reuvvCDshKTrrLjsobDsgqwg67aE7ISdLnBkZg%3D%3D",
+          "BOOKNM": "차근차근 서두르라는 개헌 여론 헌법개정 관련 대국민 설문조사 분석",
+          "INSERTDT": "2026-03-11"
+        }
+      ]
+    }
+  ]
+}

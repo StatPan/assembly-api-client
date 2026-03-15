@@ -1,0 +1,27 @@
+{
+  "nakxubpbapfmxdzrc": [
+    {
+      "head": [
+        {
+          "list_total_count": 38
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1PjkHIIQoUi&fileName=%EA%B5%AD%ED%9A%8C%EC%9E%85%EB%B2%95%EC%A1%B0%EC%82%AC%EC%B2%98%20[%EC%9E%85%EB%B2%95%EA%B3%BC%20%EC%A0%95%EC%B1%85]%2017%EA%B6%8C%203%ED%98%B8.pdf",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1PjkHIIQoUi&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=6rWt7ZqM7J6F67KV7KGw7IKs7LKYIFvsnoXrspXqs7wg7KCV7LGFXSAxN%2Bq2jCAz7Zi4LnBkZg%3D%3D",
+          "BOOKNM": "입법과 정책",
+          "INSERTDT": "2025-12-31"
+        }
+      ]
+    }
+  ]
+}

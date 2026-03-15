@@ -1,0 +1,36 @@
+{
+  "OPENSRVAPI": [
+    {
+      "head": [
+        {
+          "list_total_count": 276
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "INF_ID": "OZN379001174FW17905",
+          "INF_NM": "NABO 경제재정수첩",
+          "INF_EXP": "NABO 경제재정수첩은 국내 주요한 경제통계, 재정통계, 위원회별 통계 등 다양한 정보를 제공합니다.",
+          "CATE_NM": "보고서ㆍ발간물>국회예산정책처",
+          "OPEN_DTTM": "2020-02-07",
+          "ORG_NM": "국회예산정책처",
+          "LOAD_DTTM": "2026-03-15",
+          "SRC_EXP": "국회예산정책처 홈페이지",
+          "DDC_URL": "https://open.assembly.go.kr/portal/data/openapi/downloadOpenApiSpec.do?infId=OZN379001174FW17905&infSeq=2",
+          "SRV_URL": "https://open.assembly.go.kr/portal/data/service/selectAPIServicePage.do/OZN379001174FW17905",
+          "CCL_NM": "출처표시",
+          "LOAD_NM": "수시",
+          "LOAD_CONT": "자료 발생시"
+        }
+      ]
+    }
+  ]
+}
