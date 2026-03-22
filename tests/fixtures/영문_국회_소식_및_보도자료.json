@@ -1,0 +1,26 @@
+{
+  "ENPRESS": [
+    {
+      "head": [
+        {
+          "list_total_count": 1123
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ARTC_TTL": "Speaker Woo Won-shik receives 2026 work briefings from National Assembly Secretariat and other affiliated bodies",
+          "WRT_DT": "FEB 25, 2026",
+          "LINK_URL": "https://korea.assembly.go.kr:447/portalEn/bbs/B0000126/view.do?menuNo=1500085&nttId=4511695"
+        }
+      ]
+    }
+  ]
+}

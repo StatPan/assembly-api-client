@@ -1,0 +1,39 @@
+{
+  "nayjnliqaexiioauy": [
+    {
+      "head": [
+        {
+          "list_total_count": 76
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_O2F6Y0I3L1G7D0X9S2B6T4P8W1C8A6",
+          "BILL_NO": "2217592",
+          "AGE": "22",
+          "BILL_NAME": "조세특례제한법 일부개정법률안(대안)",
+          "CURR_COMMITTEE_ID": "9700590",
+          "CURR_COMMITTEE": "재정경제기획위원회",
+          "PROC_DT": null,
+          "COMMITTEE_RESULT": "2026-03-17",
+          "LINK_URL": "https://likms.assembly.go.kr/filegate/servlet/FileGate?bookId=DF830EC6-C88F-9015-A92D-55AE26330EA7&type=0",
+          "COMMITTEE_PROC_DT": null,
+          "CMT_PRESENT_DT": "2026-03-17",
+          "LAW_SUBMIT_DT": "2026-03-17",
+          "LAW_PRESENT_DT": "2026-03-18",
+          "LAW_PROC_DT": "2026-03-18",
+          "LAW_PROC_RESULT_CD": "수정가결",
+          "COMMITTEE_DT": null
+        }
+      ]
+    }
+  ]
+}

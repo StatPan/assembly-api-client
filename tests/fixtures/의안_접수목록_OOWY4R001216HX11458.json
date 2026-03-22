@@ -1,0 +1,32 @@
+{
+  "BILLRCP": [
+    {
+      "head": [
+        {
+          "list_total_count": 118473
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ERACO": "제2대",
+          "BILL_ID": "000333",
+          "BILL_NO": "020031",
+          "BILL_KIND": "법률안",
+          "BILL_NM": "법인세법중개정법률안",
+          "PPSR_KIND": "정부",
+          "PPSL_DT": "1950-11-01",
+          "PROC_RSLT": "원안가결",
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=000333"
+        }
+      ]
+    }
+  ]
+}

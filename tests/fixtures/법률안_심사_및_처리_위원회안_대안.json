@@ -1,0 +1,39 @@
+{
+  "nxtkyptyaolzcbfwl": [
+    {
+      "head": [
+        {
+          "list_total_count": 82
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_Y2R6W0O3B1D0B1F7B4G1E5T1F6G5K9",
+          "BILL_NO": "DD20819",
+          "AGE": "22",
+          "BILL_NAME": "원자력안전법 일부개정법률안(대안)",
+          "PROPOSER": "과학기술정보방송통신위원장",
+          "PROPOSER_KIND": "위원장",
+          "PROPOSE_DT": "2026-03-11",
+          "CURR_COMMITTEE_ID": "9700479",
+          "CURR_COMMITTEE": "과학기술정보방송통신위원회",
+          "COMMITTEE_DT": null,
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_Y2R6W0O3B1D0B1F7B4G1E5T1F6G5K9",
+          "COMMITTEE_RESULT": "대안가결",
+          "COMMITTEE_PROC_DT": "2026-03-11",
+          "CMT_PRESENT_DT": "2026-03-11",
+          "LAW_SUBMIT_DT": "2026-03-11",
+          "LAW_PRESENT_DT": null
+        }
+      ]
+    }
+  ]
+}

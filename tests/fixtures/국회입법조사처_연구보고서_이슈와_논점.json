@@ -1,0 +1,27 @@
+{
+  "nxlcxbbkapsrjayur": [
+    {
+      "head": [
+        {
+          "list_total_count": 2494
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1Pq6FEMfcHK&fileName=(%EC%9D%B4%EC%8A%88%EC%99%80%EB%85%BC%EC%A0%90%202483%ED%98%B8-20260322)%EC%99%9C%20%EC%9E%A5%EC%95%A0%EC%9D%B8%20%EA%B1%B0%EC%A3%BC%EC%8B%9C%EC%84%A4%20%ED%95%99%EB%8C%80%EB%8A%94%20%EB%B0%98%EB%B3%B5%EB%90%98%EA%B3%A0%EF%BC%8C%20%EB%8A%A6%EA%B2%8C%20%EB%93%9C%EB%9F%AC%EB%82%98%EB%8A%94%EA%B0%80:%20%EC%9E%A5%EC%95%A0%EC%9D%B8%20%EA%B1%B0%EC%A3%BC%EC%8B%9C%EC%84%A4%20%ED%95%99%EB%8C%80%20%EC%98%88%EB%B0%A9%C2%B7%EB%B0%9C%EA%B2%AC%20%EC%A0%9C%EB%8F%84%EC%9D%98%20%ED%95%9C%EA%B3%84%EC%99%80%20%EA%B0%9C%EC%84%A0%EB%B0%A9%EC%95%88.pdf",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1Pq6FEMfcHK&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=KOydtOyKiOyZgOuFvOygkCAyNDgz7Zi4LTIwMjYwMzIyKeyZnCDsnqXslaDsnbgg6rGw7KO87Iuc7ISkIO2VmeuMgOuKlCDrsJjrs7XrkJjqs6DvvIwg64qm6rKMIOuTnOufrOuCmOuKlOqwgDog7J6l7JWg7J24IOqxsOyjvOyLnOyEpCDtlZnrjIAg7JiI67CpwrfrsJzqsqwg7KCc64%2BE7J2YIO2VnOqzhOyZgCDqsJzshKDrsKnslYgucGRm",
+          "BOOKNM": "왜 장애인 거주시설 학대는 반복되고， 늦게 드러나는가: 장애인 거주시설 학대 예방·발견 제도의 한계와 개선방안",
+          "INSERTDT": "2026-03-19"
+        }
+      ]
+    }
+  ]
+}

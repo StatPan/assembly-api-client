@@ -1,0 +1,27 @@
+{
+  "nvkfeqbsacvlzjmea": [
+    {
+      "head": [
+        {
+          "list_total_count": 727
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1PpalstqS6q&fileName=(NARS%20%ED%98%84%EC%95%88%EB%B6%84%EC%84%9D%20400%ED%98%B8-20260315)%EC%A7%81%EC%97%85%EA%B3%84%20%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90%20%EC%99%B8%EA%B5%AD%EC%9D%B8%20%EC%9C%A0%ED%95%99%EC%83%9D%20%EA%B4%80%EB%A0%A8%20%EC%9E%85%EB%B2%95%20%EB%B0%8F%20%EC%A0%95%EC%B1%85%20%EA%B3%BC%EC%A0%9C:%20%EC%9C%A0%ED%95%99%EC%83%9D%20%EC%9C%A0%EC%B9%98%EC%99%80%20%EC%95%84%EB%8F%99%EC%9D%B8%EA%B6%8C%20%EB%B3%B4%ED%98%B8%20%EC%82%AC%EC%9D%B4%EC%9D%98%20%EA%B7%A0%ED%98%95%20%ED%95%84%EC%9A%94.pdf",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1PpalstqS6q&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=KE5BUlMg7ZiE7JWI67aE7ISdIDQwMO2YuC0yMDI2MDMxNSnsp4Hsl4Xqs4Qg6rOg65Ox7ZWZ6rWQIOyZuOq1reyduCDsnKDtlZnsg50g6rSA66CoIOyeheuylSDrsI8g7KCV7LGFIOqzvOygnDog7Jyg7ZWZ7IOdIOycoOy5mOyZgCDslYTrj5nsnbjqtowg67O07Zi4IOyCrOydtOydmCDqt6DtmJUg7ZWE7JqULnBkZg%3D%3D",
+          "BOOKNM": "직업계 고등학교 외국인 유학생 관련 입법 및 정책 과제: 유학생 유치와 아동인권 보호 사이의 균형 필요",
+          "INSERTDT": "2026-03-13"
+        }
+      ]
+    }
+  ]
+}
