@@ -1,0 +1,43 @@
+{
+  "nwbqublzajtcqpdae": [
+    {
+      "head": [
+        {
+          "list_total_count": 12801
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_Y2Z6X0Y2F1G3E1D1D1B1C2Y6Y0W6X6",
+          "BILL_NO": "2217673",
+          "AGE": "22",
+          "BILL_NAME": "약사법 일부개정법률안",
+          "PROPOSER": "김종민의원 등 10인",
+          "PROPOSER_KIND": "의원",
+          "PROPOSE_DT": "2026-03-20",
+          "CURR_COMMITTEE_ID": null,
+          "CURR_COMMITTEE": null,
+          "COMMITTEE_DT": null,
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_Y2Z6X0Y2F1G3E1D1D1B1C2Y6Y0W6X6",
+          "CMT_PROC_DT": null,
+          "CMT_PROC_RESULT_CD": null,
+          "RST_MONA_CD": "M2Q9024I",
+          "LAW_PRESENT_DT": null,
+          "LAW_PROC_DT": null,
+          "LAW_PROC_RESULT_CD": null,
+          "RST_PROPOSER": "김종민",
+          "CMT_PRESENT_DT": null,
+          "LAW_SUBMIT_DT": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "NARSBOOKDATA": [
+    {
+      "head": [
+        {
+          "list_total_count": 47
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "DATA_SEQCE_NO": 1000050907670,
+          "DATAID": "BDM00000017349",
+          "PDFFILENM": "(외국 입법정책 분석 46호-20231227)AI와 노동시장-일자리의 양， 질 및 노사관계 『OECD Employment Outlook 2023』의 주요 내용을 중심으로.pdf",
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1Oo6hmsdvdN&fileName=(%EC%99%B8%EA%B5%AD%20%EC%9E%85%EB%B2%95%EC%A0%95%EC%B1%85%20%EB%B6%84%EC%84%9D%2046%ED%98%B8-20231227)AI%EC%99%80%20%EB%85%B8%EB%8F%99%EC%8B%9C%EC%9E%A5-%EC%9D%BC%EC%9E%90%EB%A6%AC%EC%9D%98%20%EC%96%91%EF%BC%8C%20%EC%A7%88%20%EB%B0%8F%20%EB%85%B8%EC%82%AC%EA%B4%80%EA%B3%84%20%E3%80%8EOECD%20Employment%20Outlook%202023%E3%80%8F%EC%9D%98%20%EC%A3%BC%EC%9A%94%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EC%A4%91%EC%8B%AC%EC%9C%BC%EB%A1%9C.pdf",
+          "DIRECTVIEW": "바로보기",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1Oo6hmsdvdN&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=KOyZuOq1rSDsnoXrspXsoJXssYUg67aE7ISdIDQ27Zi4LTIwMjMxMjI3KUFJ7JmAIOuFuOuPmeyLnOyepS3snbzsnpDrpqzsnZgg7JaR77yMIOyniCDrsI8g64W47IKs6rSA6rOEIOOAjk9FQ0QgRW1wbG95bWVudCBPdXRsb29rIDIwMjPjgI%2FsnZgg7KO87JqUIOuCtOyaqeydhCDspJHsi6zsnLzroZwucGRm",
+          "DIVNM": "외국 입법ㆍ정책 분석",
+          "DIVCD": "201180000",
+          "BOOKNM": "AI와 노동시장-일자리의 양， 질 및 노사관계 『OECD Employment Outlook 2023』의 주요 내용을 중심으로",
+          "INSERTDT": "2023-12-22"
+        }
+      ]
+    }
+  ]
+}

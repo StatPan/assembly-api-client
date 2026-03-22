@@ -1,0 +1,35 @@
+{
+  "BILLJUDGE": [
+    {
+      "head": [
+        {
+          "list_total_count": 35170
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ERACO": "제17대",
+          "BILL_ID": "PRC_Z0F7O0S1D1R1A1B6C0E8M4O5E6R5J9",
+          "BILL_NO": "175932",
+          "BILL_NM": "옥외광고물등관리법 일부개정법률안",
+          "PPSR_KIND": "정부",
+          "PPSL_DT": "2007-01-03",
+          "JRCMIT_NM": "행정자치위원회",
+          "BDG_CMMT_DT": "2007-01-05",
+          "JRCMIT_PRSNT_DT": "2007-02-21",
+          "JRCMIT_PROC_DT": "2007-06-21",
+          "JRCMIT_PROC_RSLT": "대안반영폐기",
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_Z0F7O0S1D1R1A1B6C0E8M4O5E6R5J9"
+        }
+      ]
+    }
+  ]
+}

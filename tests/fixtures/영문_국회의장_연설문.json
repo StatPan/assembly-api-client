@@ -1,0 +1,26 @@
+{
+  "ENSPEAKERSPEECHES": [
+    {
+      "head": [
+        {
+          "list_total_count": 12
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "SPC_TTL": "New Year&rsquo;s Address for 2026 by National Assembly Speaker Woo Won-shik",
+          "WRT_DT": "FEB 19, 2026",
+          "LINK_URL": "https://korea.assembly.go.kr:447/portalEn/bbs/B0000114/view.do?menuNo=1500035&nttId=4493690"
+        }
+      ]
+    }
+  ]
+}
