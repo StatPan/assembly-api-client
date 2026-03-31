@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Any, Union
+from typing import Any
 
 import httpx
 from pydantic import BaseModel
@@ -141,52 +141,24 @@ class AssemblyAPIClient:
         wait=wait_exponential(multiplier=1, min=2, max=10),
         retry=retry_if_exception(_is_retryable_error),
     )
-    async def get_data(
+    async def _fetch_raw(
         self,
-        service_id_or_name: str | Service,
-        params: dict[str, Any] | BaseModel = None,
+        service_id: str,
+        params: dict[str, Any] | None = None,
         fmt: str = "json",
-        raw: bool = False,
-    ) -> Union[dict[str, Any], str, BaseModel, list[BaseModel]]:
+    ) -> dict[str, Any] | str:
         """
-        Fetch data from the API using dynamic endpoint resolution.
+        Internal: fetch raw API response as dict (JSON) or str (XML).
 
-        Args:
-            service_id_or_name: The API service ID, Service Name, or Service Enum member.
-            params: Query parameters.
-            fmt: Response format ('json' or 'xml').
-            raw: If True, return raw dict without Pydantic model conversion.
-
-        Returns:
-            Parsed JSON dict, raw XML string, or Pydantic Model (if available and raw=False).
-
-        Raises:
-            SpecParseError: If endpoint resolution fails
-            AssemblyAPIError: If API returns an error
+        Handles endpoint resolution, HTTP call, and API error checking.
         """
-        # Resolve ID
-        if HAS_GENERATED_TYPES and isinstance(service_id_or_name, Service):
-            service_id = service_id_or_name.value
-        else:
-            service_id = self._resolve_service_id(service_id_or_name)
-
-        # Handle Pydantic Params
-        if isinstance(params, BaseModel):
-            # Convert to dict using aliases (to match API param names)
-            # exclude_none=True because optional params shouldn't be sent if not set
-            params = params.model_dump(by_alias=True, exclude_none=True)
-
-        # Get actual endpoint from Excel spec
         try:
             endpoint = await self.get_endpoint(service_id)
         except SpecParseError as e:
             logger.error(f"Failed to get endpoint for {service_id}: {e}")
             raise
 
-        # Build URL with actual endpoint
         url = f"{self.BASE_URL}/{endpoint}"
-
-        # Add format parameter using Type param (not URL path)
         default_params = {
             "KEY": self.api_key,
             "Type": fmt.lower(),
@@ -202,38 +174,6 @@ class AssemblyAPIClient:
             if fmt.lower() == "json":
                 data = response.json()
                 self._check_api_error(data, endpoint)
-
-                # Try to convert to Pydantic model (skip if raw=True)
-                if not raw and HAS_GENERATED_TYPES and service_id in MODEL_MAP:
-                    try:
-                        model_cls = MODEL_MAP[service_id]
-                        # The data structure is usually {endpoint: [{head: ...}, {row: [...]}]}
-                        # We want to parse the rows into a list of models?
-                        # Or return a wrapper model?
-                        # The generated model is for a SINGLE row item.
-                        # So we should probably return a list of models.
-                        # Extract rows
-                        # The API returns a dict with a key equal to the service ID
-                        # e.g. {"OK7XM...": [{"head": ...}, {"row": ...}]}
-                        target_key = service_id
-                        if service_id not in data:
-                            # Fallback: look for a key that has the expected structure
-                            # Expected: { "KEY": [ { "head": ... }, { "row": ... } ] }
-                            for key, val in data.items():
-                                if isinstance(val, list) and len(val) >= 2 and "row" in val[1]:
-                                    target_key = key
-                                    break
-
-                        if target_key in data:
-                            items = data[target_key][1]["row"]
-                            return [model_cls(**row) for row in items]
-                        else:
-                            # If we can't find the rows, return raw data
-                            return data
-                    except Exception as e:
-                        logger.warning(f"Failed to parse response into model {service_id}: {e}")
-                        # Fallback to raw dict
-
                 return data
             else:
                 return response.text
@@ -241,9 +181,91 @@ class AssemblyAPIClient:
         except httpx.HTTPStatusError as e:
             logger.error(f"HTTP error: {e.response.status_code} - {e.response.text}")
             raise AssemblyAPIError(str(e.response.status_code), str(e)) from e
+        except (AssemblyAPIError, SpecParseError):
+            raise
         except Exception as e:
             logger.error(f"API request failed: {e}")
             raise AssemblyAPIError("UNKNOWN", str(e)) from e
+
+    async def get_data(
+        self,
+        service_id_or_name: str | Service,
+        params: dict[str, Any] | BaseModel = None,
+        fmt: str = "json",
+    ) -> list[BaseModel] | str:
+        """
+        Fetch data from the API using dynamic endpoint resolution.
+
+        Returns a list of typed Pydantic models (for JSON) or str (for XML).
+        If generated types are not available, falls back to list of raw dicts.
+
+        Args:
+            service_id_or_name: The API service ID, Service Name, or Service Enum member.
+            params: Query parameters.
+            fmt: Response format ('json' or 'xml').
+
+        Returns:
+            list[BaseModel] for JSON responses (or list[dict] without generated types),
+            str for XML. Empty list [] when API returns no data (INFO-200).
+
+        Raises:
+            SpecParseError: If endpoint resolution fails
+            AssemblyAPIError: If API returns an error or model parsing fails
+        """
+        # Resolve ID
+        if HAS_GENERATED_TYPES and isinstance(service_id_or_name, Service):
+            service_id = service_id_or_name.value
+        else:
+            service_id = self._resolve_service_id(service_id_or_name)
+
+        # Handle Pydantic Params
+        if isinstance(params, BaseModel):
+            params = params.model_dump(by_alias=True, exclude_none=True)
+
+        data = await self._fetch_raw(service_id, params, fmt)
+
+        if isinstance(data, str):
+            return data
+
+        return self._parse_response(data, service_id)
+
+    def _parse_response(
+        self, data: dict[str, Any], service_id: str
+    ) -> list[BaseModel] | list[dict[str, Any]]:
+        """
+        Parse API JSON response into a list of Pydantic models.
+
+        Falls back to list of raw dicts if generated types are unavailable.
+        Returns [] for empty/no-data responses.
+        Raises AssemblyAPIError on parse failure (no silent fallback).
+        """
+        # Find the response key containing rows
+        target_key = service_id
+        if service_id not in data:
+            for key, val in data.items():
+                if isinstance(val, list) and len(val) >= 2 and "row" in val[1]:
+                    target_key = key
+                    break
+
+        if target_key not in data:
+            return []
+
+        items = data[target_key][1].get("row", [])
+        if not items:
+            return []
+
+        # If no generated types, return raw dicts
+        if not HAS_GENERATED_TYPES or service_id not in MODEL_MAP:
+            return items
+
+        model_cls = MODEL_MAP[service_id]
+        try:
+            return [model_cls(**row) for row in items]
+        except Exception as e:
+            raise AssemblyAPIError(
+                "MODEL_PARSE_ERROR",
+                f"Failed to parse response into {model_cls.__name__}: {e}",
+            ) from e
 
     async def get_all_data(
         self,
@@ -254,7 +276,7 @@ class AssemblyAPIClient:
         """
         Fetch all pages of data from the API with automatic pagination.
 
-        This is an async generator that yields rows from each page.
+        Yields a list of Pydantic models (or raw dicts) per page.
         For INFO-200 (no data) responses, yields nothing and exits cleanly.
 
         Args:
@@ -263,14 +285,18 @@ class AssemblyAPIClient:
             p_size: Page size for pagination (default: 100).
 
         Yields:
-            list[dict]: Rows from each page of data.
+            list[BaseModel]: Models from each page (or list[dict] without generated types).
 
         Example:
             async for rows in client.get_all_data("ServiceName"):
                 for row in rows:
                     process(row)
         """
-        p_index = 1
+        # Resolve ID once
+        if HAS_GENERATED_TYPES and isinstance(service_id_or_name, Service):
+            service_id = service_id_or_name.value
+        else:
+            service_id = self._resolve_service_id(service_id_or_name)
 
         # Handle Pydantic Params once
         if isinstance(params, BaseModel):
@@ -278,13 +304,13 @@ class AssemblyAPIClient:
         else:
             params = dict(params) if params else {}
 
+        p_index = 1
+
         while True:
             try:
-                # Set pagination params for this page
                 page_params = {**params, "pIndex": p_index, "pSize": p_size}
-                data = await self.get_data(service_id_or_name, page_params, raw=True)
+                data = await self._fetch_raw(service_id, page_params)
 
-                # get_data returns dict for JSON responses
                 if not isinstance(data, dict):
                     logger.warning(f"Unexpected response type: {type(data)}")
                     break
@@ -317,8 +343,8 @@ class AssemblyAPIClient:
                 except (KeyError, IndexError, ValueError, TypeError) as e:
                     logger.debug(f"Could not extract total_count: {e}")
 
-                # Extract rows
-                rows = res_content[1].get("row", [])
+                # Parse rows into models
+                rows = self._parse_response(data, service_id)
                 if not rows:
                     break
 
@@ -329,7 +355,6 @@ class AssemblyAPIClient:
                 if total_count and fetched_count >= total_count:
                     break
 
-                # Also break if we received less than a full page
                 if len(rows) < p_size:
                     break
 
