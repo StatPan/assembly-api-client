@@ -1,0 +1,39 @@
+{
+  "nayjnliqaexiioauy": [
+    {
+      "head": [
+        {
+          "list_total_count": 142
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_K2P6F0V4G0L3Y1L8N2W4Q4S1S4I5J3",
+          "BILL_NO": "2218562",
+          "AGE": "22",
+          "BILL_NAME": "특례시 지원에 관한 특별법안(대안)",
+          "CURR_COMMITTEE_ID": "9700480",
+          "CURR_COMMITTEE": "행정안전위원회",
+          "PROC_DT": null,
+          "COMMITTEE_RESULT": "2026-04-06",
+          "LINK_URL": null,
+          "COMMITTEE_PROC_DT": null,
+          "CMT_PRESENT_DT": "2026-04-06",
+          "LAW_SUBMIT_DT": "2026-04-06",
+          "LAW_PRESENT_DT": "2026-04-22",
+          "LAW_PROC_DT": "2026-04-22",
+          "LAW_PROC_RESULT_CD": "수정가결",
+          "COMMITTEE_DT": null
+        }
+      ]
+    }
+  ]
+}

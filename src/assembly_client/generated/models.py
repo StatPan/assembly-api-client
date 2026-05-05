@@ -758,10 +758,12 @@ class Model_OOWY4R001216HX11468(BaseModel):
     BDG_RSLN_DT: Union[str, int, float, None] = Field(None, description="예결위심사 의결일", alias="BDG_RSLN_DT")
     BDG_PROC_RSLT: Union[str, int, float, None] = Field(None, description="예결위심사 처리결과", alias="BDG_PROC_RSLT")
     LINK_URL: Union[str, int, float, None] = Field(None, description="링크URL", alias="LINK_URL")
+    HWP_URL: Union[str, int, float, None] = Field(None, description="문서URL", alias="HWP_URL")
 
 class Params_OOWY4R001216HX11468(BaseModel):
     """Request parameters for OOWY4R001216HX11468"""
     ERACO: str | None = Field(None, description="대수", alias="ERACO")
+    BILL_ID: str | None = Field(None, description="의안ID", alias="BILL_ID")
 
 class Model_OGM9FC001165FS12631(BaseModel):
     """Response model for OGM9FC001165FS12631"""
@@ -1176,7 +1178,6 @@ class Model_O70WYZ000950T211169(BaseModel):
     ARTICLE_TITLE: Union[str, int, float, None] = Field(None, description="제목", alias="ARTICLE_TITLE")
     DT: Union[str, int, float, None] = Field(None, description="일시", alias="DT")
     ETC_CHAR11: Union[str, int, float, None] = Field(None, description="장소", alias="ETC_CHAR11")
-    ARTICLE_TEXT: Union[str, int, float, None] = Field(None, description="내용", alias="ARTICLE_TEXT")
     LINK_URL: Union[str, int, float, None] = Field(None, description="링크주소", alias="LINK_URL")
 
 class Params_O70WYZ000950T211169(BaseModel):
@@ -2501,6 +2502,52 @@ class Params_OS46YD0012559515463(BaseModel):
     """Request parameters for OS46YD0012559515463"""
     BILL_NO: str = Field(..., description="의안번호", alias="BILL_NO")
 
+class Model_OOWY4R001216HX11536(BaseModel):
+    """Response model for OOWY4R001216HX11536"""
+    ERACO: Union[str, int, float, None] = Field(None, description="대수", alias="ERACO")
+    BILL_ID: Union[str, int, float, None] = Field(None, description="의안ID", alias="BILL_ID")
+    BILL_NO: Union[str, int, float, None] = Field(None, description="의안번호", alias="BILL_NO")
+    BILL_KND: Union[str, int, float, None] = Field(None, description="의안종류", alias="BILL_KND")
+    BILL_NM: Union[str, int, float, None] = Field(None, description="의안명", alias="BILL_NM")
+    PPSR_KND: Union[str, int, float, None] = Field(None, description="제안자구분", alias="PPSR_KND")
+    PPSR_NM: Union[str, int, float, None] = Field(None, description="제안자명", alias="PPSR_NM")
+    PPSL_SESS: Union[str, int, float, None] = Field(None, description="제안회기", alias="PPSL_SESS")
+    PPSL_DT: Union[str, int, float, None] = Field(None, description="제안일", alias="PPSL_DT")
+    JRCMIT_NM: Union[str, int, float, None] = Field(None, description="소관위원회명", alias="JRCMIT_NM")
+    JRCMIT_CMMT_DT: Union[str, int, float, None] = Field(None, description="소관위원회 회부일", alias="JRCMIT_CMMT_DT")
+    JRCMIT_PRSNT_DT: Union[str, int, float, None] = Field(None, description="소관위원회 상정일", alias="JRCMIT_PRSNT_DT")
+    JRCMIT_PROC_DT: Union[str, int, float, None] = Field(None, description="소관위원회 처리일", alias="JRCMIT_PROC_DT")
+    JRCMIT_PROC_RSLT: Union[str, int, float, None] = Field(None, description="소관위원회 처리결과", alias="JRCMIT_PROC_RSLT")
+    LAW_CMMT_DT: Union[str, int, float, None] = Field(None, description="법사위 체계자구심사 회부일", alias="LAW_CMMT_DT")
+    LAW_PRSNT_DT: Union[str, int, float, None] = Field(None, description="법사위 체계자구심사 상정일", alias="LAW_PRSNT_DT")
+    LAW_PROC_DT: Union[str, int, float, None] = Field(None, description="법사위 체계자구심사 처리일", alias="LAW_PROC_DT")
+    LAW_PROC_RSLT: Union[str, int, float, None] = Field(None, description="법사위 체계자구심사 처리결과", alias="LAW_PROC_RSLT")
+    RGS_PRSNT_DT: Union[str, int, float, None] = Field(None, description="본회의 심의 상정일", alias="RGS_PRSNT_DT")
+    RGS_RSLN_DT: Union[str, int, float, None] = Field(None, description="본회의 심의 의결일", alias="RGS_RSLN_DT")
+    RGS_CONF_NM: Union[str, int, float, None] = Field(None, description="본회의 심의 회의명", alias="RGS_CONF_NM")
+    RGS_CONF_RSLT: Union[str, int, float, None] = Field(None, description="본회의 심의결과", alias="RGS_CONF_RSLT")
+    GVRN_TRSF_DT: Union[str, int, float, None] = Field(None, description="정부 이송일", alias="GVRN_TRSF_DT")
+    PROM_LAW_NM: Union[str, int, float, None] = Field(None, description="공포 법률명", alias="PROM_LAW_NM")
+    PROM_DT: Union[str, int, float, None] = Field(None, description="공포일", alias="PROM_DT")
+    PROM_NO: Union[str, int, float, None] = Field(None, description="공포번호", alias="PROM_NO")
+    LINK_URL: Union[str, int, float, None] = Field(None, description="링크URL", alias="LINK_URL")
+    PASSGUBN: Union[str, int, float, None] = Field(None, description="처리구분", alias="PASSGUBN")
+    PROC_STAGE_CD: Union[str, int, float, None] = Field(None, description="심사진행상태", alias="PROC_STAGE_CD")
+    HWP_URL1: Union[str, int, float, None] = Field(None, description="검토보고서, 심사보고서", alias="HWP_URL1")
+    HWP_URL2: Union[str, int, float, None] = Field(None, description="체계자구검토보고서", alias="HWP_URL2")
+
+class Params_OOWY4R001216HX11536(BaseModel):
+    """Request parameters for OOWY4R001216HX11536"""
+    ERACO: str = Field(..., description="대수", alias="ERACO")
+    BILL_ID: str | None = Field(None, description="의안ID", alias="BILL_ID")
+    BILL_NO: str | None = Field(None, description="의안번호", alias="BILL_NO")
+    BILL_KND: str | None = Field(None, description="의안종류", alias="BILL_KND")
+    BILL_NM: str | None = Field(None, description="의안명", alias="BILL_NM")
+    PPSR_KND: str | None = Field(None, description="제안자구분", alias="PPSR_KND")
+    PPSL_DT: str | None = Field(None, description="제안일", alias="PPSL_DT")
+    JRCMIT_NM: str | None = Field(None, description="소관위원회명", alias="JRCMIT_NM")
+    RGS_CONF_RSLT: str | None = Field(None, description="본회의 심의결과", alias="RGS_CONF_RSLT")
+
 class Model_OTICJI000959B917394(BaseModel):
     """Response model for OTICJI000959B917394"""
     BILL_NO: Union[str, int, float, None] = Field(None, description="청원번호", alias="BILL_NO")
@@ -2642,6 +2689,8 @@ class Model_OOWY4R001216HX11494(BaseModel):
     ADCMIT_PROC_DT: Union[str, int, float, None] = Field(None, description="예비심사 의결일", alias="ADCMIT_PROC_DT")
     ADCMIT_PROC_RSLT: Union[str, int, float, None] = Field(None, description="예비심사 결과", alias="ADCMIT_PROC_RSLT")
     LINK_URL: Union[str, int, float, None] = Field(None, description="링크URL", alias="LINK_URL")
+    HWPURL1: Union[str, int, float, None] = Field(None, description="예비심사검토보고서", alias="HWPURL1")
+    HWPURL2: Union[str, int, float, None] = Field(None, description="예비심사보고서", alias="HWPURL2")
 
 class Params_OOWY4R001216HX11494(BaseModel):
     """Request parameters for OOWY4R001216HX11494"""
@@ -3083,6 +3132,27 @@ class Params_OOWY4R001216HX11449(BaseModel):
     """Request parameters for OOWY4R001216HX11449"""
     CMIT_DIV_CD: str | None = Field(None, description="위원회구분코드", alias="CMIT_DIV_CD")
     CMIT_NM: str | None = Field(None, description="위원회명", alias="CMIT_NM")
+
+class Model_OOWY4R001216HX11537(BaseModel):
+    """Response model for OOWY4R001216HX11537"""
+    ERACO: Union[str, int, float, None] = Field(None, description="대수", alias="ERACO")
+    BILL_ID: Union[str, int, float, None] = Field(None, description="의안ID", alias="BILL_ID")
+    BILL_NO: Union[str, int, float, None] = Field(None, description="의안번호", alias="BILL_NO")
+    BILL_KIND: Union[str, int, float, None] = Field(None, description="의안 종류", alias="BILL_KIND")
+    BILL_NM: Union[str, int, float, None] = Field(None, description="의안명", alias="BILL_NM")
+    PPSR_KIND: Union[str, int, float, None] = Field(None, description="제안자 구분", alias="PPSR_KIND")
+    PPSL_DT: Union[str, int, float, None] = Field(None, description="제안일", alias="PPSL_DT")
+    PROC_RSLT: Union[str, int, float, None] = Field(None, description="처리결과", alias="PROC_RSLT")
+    LINK_URL: Union[str, int, float, None] = Field(None, description="링크URL", alias="LINK_URL")
+    BOOK_HWPURL: Union[str, int, float, None] = Field(None, description="의안원문 HWP파일 경로", alias="BOOK_HWPURL")
+    COST_HWPURL: Union[str, int, float, None] = Field(None, description="비용추계서 HWP파일 경로", alias="COST_HWPURL")
+    PPSR_NM: Union[str, int, float, None] = Field(None, description="제안자명", alias="PPSR_NM")
+    WTHD_DT: Union[str, int, float, None] = Field(None, description="철회일자", alias="WTHD_DT")
+
+class Params_OOWY4R001216HX11537(BaseModel):
+    """Request parameters for OOWY4R001216HX11537"""
+    ERACO: str | None = Field(None, description="대수", alias="ERACO")
+    BILL_ID: str = Field(..., description="의안ID", alias="BILL_ID")
 
 class Model_O84OO9000939BC16536(BaseModel):
     """Response model for O84OO9000939BC16536"""
@@ -3692,6 +3762,8 @@ class Model_OOWY4R001216HX11460(BaseModel):
     PPSR_NM: Union[str, int, float, None] = Field(None, description="제안자명", alias="PPSR_NM")
     PPSR_CH_NM: Union[str, int, float, None] = Field(None, description="제안자한자명", alias="PPSR_CH_NM")
     REP_DIV: Union[str, int, float, None] = Field(None, description="대표발의 구분", alias="REP_DIV")
+    PPSR_ROLE: Union[str, int, float, None] = Field(None, description="역할", alias="PPSR_ROLE")
+    NASS_CD: Union[str, int, float, None] = Field(None, description="국회의원코드", alias="NASS_CD")
 
 class Params_OOWY4R001216HX11460(BaseModel):
     """Request parameters for OOWY4R001216HX11460"""
@@ -4019,9 +4091,10 @@ class Model_O4K6HM0012064I15889(BaseModel):
     CMT_PROC_RESULT_CD: Union[str, int, float, None] = Field(None, description="소관위처리결과", alias="CMT_PROC_RESULT_CD")
     CMT_PROC_DT: Union[str, int, float, None] = Field(None, description="소관위처리일", alias="CMT_PROC_DT")
     CMT_PRESENT_DT: Union[str, int, float, None] = Field(None, description="소관위상정일", alias="CMT_PRESENT_DT")
+    PROC_DT: Union[str, int, float, None] = Field(None, description="의결일", alias="PROC_DT")
     RST_MONA_CD: Union[str, int, float, None] = Field(None, description="대표발의자코드", alias="RST_MONA_CD")
     PROC_RESULT_CD: Union[str, int, float, None] = Field(None, description="본회의심의결과", alias="PROC_RESULT_CD")
-    PROC_DT: Union[str, int, float, None] = Field(None, description="의결일", alias="PROC_DT")
+    PASS_GUBUN: Union[str, int, float, None] = Field(None, description="의안구분", alias="PASS_GUBUN")
 
 class Params_O4K6HM0012064I15889(BaseModel):
     """Request parameters for O4K6HM0012064I15889"""
@@ -4353,6 +4426,8 @@ class Model_O67B1I001080WL10254(BaseModel):
     STIME: Union[str, int, float, None] = Field(None, description="개최시간", alias="STIME")
     NAME: Union[str, int, float, None] = Field(None, description="주최기관", alias="NAME")
     LOCATION: Union[str, int, float, None] = Field(None, description="개최장소", alias="LOCATION")
+    IMGLINK: Union[str, int, float, None] = Field(None, description="이미지주소", alias="IMGLINK")
+    PHONE: Union[str, int, float, None] = Field(None, description="문의전화번호", alias="PHONE")
 
 class Params_O67B1I001080WL10254(BaseModel):
     """Request parameters for O67B1I001080WL10254"""
@@ -4375,6 +4450,21 @@ class Model_OOWY4R001216HX11524(BaseModel):
 class Params_OOWY4R001216HX11524(BaseModel):
     """Request parameters for OOWY4R001216HX11524"""
     CONF_ID: str = Field(..., description="회의ID", alias="CONF_ID")
+
+class Model_OOWY4R001216HX11538(BaseModel):
+    """Response model for OOWY4R001216HX11538"""
+    PRDC_YM_NM: Union[str, int, float, None] = Field(None, description="생산년월", alias="PRDC_YM_NM")
+    OPB_FL_NM: Union[str, int, float, None] = Field(None, description="공개파일명", alias="OPB_FL_NM")
+    INST_CD: Union[str, int, float, None] = Field(None, description="기관코드", alias="INST_CD")
+    INST_NM: Union[str, int, float, None] = Field(None, description="기관명", alias="INST_NM")
+    OPB_FL_PH: Union[str, int, float, None] = Field(None, description="공개파일경로", alias="OPB_FL_PH")
+    FILE_ID: Union[str, int, float, None] = Field(None, description="파일ID", alias="FILE_ID")
+
+class Params_OOWY4R001216HX11538(BaseModel):
+    """Request parameters for OOWY4R001216HX11538"""
+    PRDC_YM_NM: str | None = Field(None, description="생산년월", alias="PRDC_YM_NM")
+    OPB_FL_NM: str | None = Field(None, description="공개파일명", alias="OPB_FL_NM")
+    INST_NM: str | None = Field(None, description="기관명", alias="INST_NM")
 
 class Model_OHAC6C000892WC13765(BaseModel):
     """Response model for OHAC6C000892WC13765"""

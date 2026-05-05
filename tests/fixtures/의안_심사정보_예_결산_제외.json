@@ -1,0 +1,35 @@
+{
+  "BILLJUDGE": [
+    {
+      "head": [
+        {
+          "list_total_count": 35642
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ERACO": "제20대",
+          "BILL_ID": "PRC_F1C9N0Y3I1U5B1G7M3O8S5U7G5E1L9",
+          "BILL_NO": "2019249",
+          "BILL_NM": "선박직원법 일부개정법률안",
+          "PPSR_KIND": "의원",
+          "PPSL_DT": "2019-03-15",
+          "JRCMIT_NM": "농림축산식품해양수산위원회",
+          "BDG_CMMT_DT": "2019-03-18",
+          "JRCMIT_PRSNT_DT": "2019-07-11",
+          "JRCMIT_PROC_DT": "2019-11-20",
+          "JRCMIT_PROC_RSLT": "대안반영폐기",
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_F1C9N0Y3I1U5B1G7M3O8S5U7G5E1L9"
+        }
+      ]
+    }
+  ]
+}
