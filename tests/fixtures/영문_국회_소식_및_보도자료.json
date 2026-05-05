@@ -1,0 +1,26 @@
+{
+  "ENPRESS": [
+    {
+      "head": [
+        {
+          "list_total_count": 1129
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ARTC_TTL": "[Photo] Speaker Woo Won-shik meets with the public and explains the &ldquo;December 3 Martial Law Declaration&rdquo; during National Assembly open-house event",
+          "WRT_DT": "MAY 04, 2026",
+          "LINK_URL": "https://korea.assembly.go.kr:447/portalEn/bbs/B0000126/view.do?menuNo=1500085&nttId=4664181"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "nakxubpbapfmxdzrc": [
+    {
+      "head": [
+        {
+          "list_total_count": 39
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1PtLbNXxPsJ&fileName=[%EC%9E%85%EB%B2%95%EA%B3%BC%20%EC%A0%95%EC%B1%85]%20%EC%A0%9C18%EA%B6%8C%20%EC%A0%9C1%ED%98%B8.pdf",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1PtLbNXxPsJ&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=W%2ByeheuyleqzvCDsoJXssYVdIOygnDE46raMIOygnDHtmLgucGRm",
+          "BOOKNM": "입법과 정책",
+          "INSERTDT": "2026-04-29"
+        }
+      ]
+    }
+  ]
+}

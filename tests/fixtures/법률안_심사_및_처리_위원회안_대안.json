@@ -1,0 +1,39 @@
+{
+  "nxtkyptyaolzcbfwl": [
+    {
+      "head": [
+        {
+          "list_total_count": 85
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "BILL_ID": "PRC_D2W6E0E4I2O9Y2C0O1M9K3W4U6Z4K0",
+          "BILL_NO": "DD20995",
+          "AGE": "22",
+          "BILL_NAME": "사회기반시설에 대한 민간투자법 일부개정법률안(대안)",
+          "PROPOSER": "재정경제기획위원장",
+          "PROPOSER_KIND": "위원장",
+          "PROPOSE_DT": "2026-04-30",
+          "CURR_COMMITTEE_ID": "9700590",
+          "CURR_COMMITTEE": "재정경제기획위원회",
+          "COMMITTEE_DT": null,
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2W6E0E4I2O9Y2C0O1M9K3W4U6Z4K0",
+          "COMMITTEE_RESULT": "대안가결",
+          "COMMITTEE_PROC_DT": "2026-04-30",
+          "CMT_PRESENT_DT": "2026-04-30",
+          "LAW_SUBMIT_DT": "2026-04-30",
+          "LAW_PRESENT_DT": null
+        }
+      ]
+    }
+  ]
+}

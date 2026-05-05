@@ -1,0 +1,32 @@
+{
+  "BILLRCP": [
+    {
+      "head": [
+        {
+          "list_total_count": 119098
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ERACO": "제22대",
+          "BILL_ID": "PRC_W2W4U0C8C0A5B0Z9A5Y7G4H0F1F0E5",
+          "BILL_NO": "2203550",
+          "BILL_KIND": "법률안",
+          "BILL_NM": "노인 일자리 및 사회활동 지원에 관한 법률 일부개정법률안",
+          "PPSR_KIND": "의원",
+          "PPSL_DT": "2024-09-03",
+          "PROC_RSLT": "수정가결",
+          "LINK_URL": "https://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_W2W4U0C8C0A5B0Z9A5Y7G4H0F1F0E5"
+        }
+      ]
+    }
+  ]
+}

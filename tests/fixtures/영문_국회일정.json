@@ -1,0 +1,29 @@
+{
+  "ENSCHEDULENOTICE": [
+    {
+      "head": [
+        {
+          "list_total_count": 20666
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "CONF_SCH_DIV": "Committee",
+          "SESS": "435th session (extraordinary)",
+          "DGR": "1st",
+          "SCH_DT": "MAY 07, 2026",
+          "SCH_TM": "10:00",
+          "CMIT_NM": "Science, ICT, Broadcasting, and Communications Committee"
+        }
+      ]
+    }
+  ]
+}

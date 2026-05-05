@@ -1,0 +1,27 @@
+{
+  "nvkfeqbsacvlzjmea": [
+    {
+      "head": [
+        {
+          "list_total_count": 742
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "PDFFILEURL": "http://www.nars.go.kr/fileDownload2.do?doc_id=1PshQR09hju&fileName=(NARS%20%ED%98%84%EC%95%88%EB%B6%84%EC%84%9D%20415%ED%98%B8-20260421)%EB%AF%B8%EC%84%B1%EB%85%84%20%EC%B2%AD%EC%86%8C%EB%85%84%20%EB%B6%80%EB%AA%A8%EC%9D%98%20%EF%BC%87%EC%A3%BC%EC%86%8C%20%EC%97%86%EB%8A%94%20%EC%82%B6%EF%BC%87.pdf",
+          "VIEWERURL": "http://drm.nars.go.kr:7003/sd/imageviewer?DocId=1PshQR09hju&ViewerYn=Y&EdmUserId=datauser&type=S&fileName=KE5BUlMg7ZiE7JWI67aE7ISdIDQxNe2YuC0yMDI2MDQyMSnrr7jshLHrhYQg7LKt7IaM64WEIOu2gOuqqOydmCDvvIfso7zshowg7JeG64qUIOyCtu%2B8hy5wZGY%3D",
+          "BOOKNM": "미성년 청소년 부모의 '주소 없는 삶'",
+          "INSERTDT": "2026-04-21"
+        }
+      ]
+    }
+  ]
+}
